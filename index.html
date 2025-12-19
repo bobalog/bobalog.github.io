@@ -1,173 +1,31 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>bobalog 본부 🧋</title>
-  <style>
-    @font-face { font-family: 'Mabiyet'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2207-01@1.0/MabinogiClassicR.woff2') format('woff2'); }
-    :root { --pink: #ffafcc; --sub-pink: #ffc8dd; --purple: #cdb4db; --bg: #fdf0f5; }
-    body { background: var(--bg); font-family: 'Mabiyet', sans-serif; color: #555; margin: 0; display: flex; justify-content: center; }
-    .container { width: 100%; max-width: 480px; padding: 20px; box-sizing: border-box; }
-    .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 8px 15px rgba(255,175,204,0.1); margin-bottom: 20px; border: 2px solid #fff; }
-    .btn { padding: 12px; border-radius: 15px; border: none; color: white; cursor: pointer; font-weight: bold; font-family: 'Mabiyet'; font-size: 15px; transition: 0.2s; }
-    .pink-btn { background: var(--pink); width: 100%; }
-    .purple-btn { background: var(--purple); }
-    input, textarea { width: 100%; padding: 12px; border: 1px solid var(--sub-pink); border-radius: 12px; font-family: 'Mabiyet'; margin-bottom: 10px; box-sizing: border-box; }
-    .hidden { display: none !important; }
+// index.html의 <script> 부분만 이걸로 싹 갈아끼워봐!
+async function signIn() {
+  // 1. 버튼 눌렸는지 확인용 알림
+  console.log("로그인 시도 시작!");
+  
+  try {
+    // 2. 입력값 제대로 가져오는지 체크
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-pw').value;
     
-    /* 대시보드 레이아웃 */
-    .header-links { display: flex; gap: 5px; justify-content: center; margin-bottom: 15px; }
-    .stock-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-    .date-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-weight: bold; color: var(--pink); }
-    ul { list-style: none; padding: 0; }
-    li { background: #fff5f8; padding: 10px; margin: 5px 0; border-radius: 10px; display: flex; justify-content: space-between; }
-    .done { text-decoration: line-through; opacity: 0.5; }
-  </style>
-</head>
-<body>
-
-  <div class="container">
-    
-    <div id="login-page" class="card">
-      <h1 style="color: var(--pink); text-align: center;">🧋 bobalog 인증</h1>
-      <input type="email" id="login-email" placeholder="이메일 (abc.bobatea@gmail.com)" value="abc.bobatea@gmail.com">
-      <input type="password" id="login-pw" placeholder="비밀번호" value="rltgjqm">
-      <button class="btn pink-btn" onclick="signIn()">대시보드 입장하기 ✅</button>
-      <p id="status-chip" style="font-size: 11px; text-align: center; color: #999; margin-top: 10px;">상태: 대기 중</p>
-    </div>
-
-    <div id="dashboard-page" class="hidden">
-      <div class="header-links">
-        <a href="https://gemini.google.com" target="_blank" class="btn purple-btn" style="flex:1; text-align:center; text-decoration:none;">Gemini</a>
-        <a href="https://chatgpt.com" target="_blank" class="btn purple-btn" style="flex:1; text-align:center; text-decoration:none;">GPT</a>
-        <a href="https://grok.com" target="_blank" class="btn purple-btn" style="flex:1; text-align:center; text-decoration:none;">Grok</a>
-      </div>
-
-      <div class="card">
-        <div class="stock-grid">
-          <a href="https://finance.naver.com/item/main.naver?code=005930" target="_blank" class="btn pink-btn" style="text-decoration:none;">삼성전자 📈</a>
-          <a href="https://finance.naver.com/sise/sise_index.naver?code=KOSPI" target="_blank" class="btn pink-btn" style="text-decoration:none;">KOSPI 📊</a>
-        </div>
-        <div style="text-align: center;">
-          <h2 id="time-clock" style="margin: 5px 0;">00:00:00</h2>
-          <p id="weather-info" style="font-size: 14px; color: #888;">날씨 정보를 불러오는 중...</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="date-nav">
-          <span onclick="moveDate(-1)" style="cursor:pointer;">◀</span>
-          <span id="current-date-display">2025-12-19</span>
-          <span onclick="moveDate(1)" style="cursor:pointer;">▶</span>
-        </div>
-        <div style="display: flex; gap: 5px;">
-          <input type="text" id="todo-input" placeholder="오늘 뭐 할까?" style="margin:0;">
-          <button onclick="addTodo()" class="btn purple-btn" style="height: 44px;">추가</button>
-        </div>
-        <ul id="todo-list"></ul>
-      </div>
-
-      <div class="card">
-        <h2>📝 오늘의 기록</h2>
-        <textarea id="diary-text" rows="4" placeholder="오늘 하루는 어땠어?"></textarea>
-        <button onclick="saveDiary()" class="btn pink-btn">기록 저장하기 🎀</button>
-      </div>
-
-      <button onclick="signOut()" style="background:none; border:none; color:#bbb; width:100%; cursor:pointer; font-family:'Mabiyet'; margin-top:10px;">로그아웃</button>
-    </div>
-
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const SUPABASE_URL = "https://hyydywzsvnfhdrexntnl.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5eWR5d3pzdm5maGRyZXhudG5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxMjE3MTAsImV4cCI6MjA4MTY5NzcxMH0.2vrbtBozzHeUle9a1foYmsz4o3jkPN5GtbBM0F-eK20";
-    let supabase, currentDate = new Date();
-
-    // 초기 실행
-    window.onload = async () => {
-      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) showDashboard();
-      else showLogin();
-      startClock();
-      getWeather();
-    };
-
-    // [인증]
-    async function signIn() {
-      const email = document.getElementById('login-email').value;
-      const password = document.getElementById('login-pw').value;
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) alert("실패: " + error.message);
-      else location.reload();
+    if (!supabase) {
+      alert("❌ 서버 연결 도구(Supabase)가 로드되지 않았어! 새로고침 해봐.");
+      return;
     }
 
-    async function signOut() { await supabase.auth.signOut(); location.reload(); }
+    // 3. 실제 로그인 시도
+    const { data, error } = await supabase.auth.signInWithPassword({ 
+      email: email, 
+      password: password 
+    });
 
-    function showLogin() { document.getElementById('login-page').classList.remove('hidden'); }
-    function showDashboard() { 
-      document.getElementById('dashboard-page').classList.remove('hidden');
-      document.getElementById('login-page').classList.add('hidden');
-      updateDateDisplay();
+    if (error) {
+      alert("❌ 로그인 거부: " + error.message);
+    } else {
+      alert("✅ 인증 성공! 대시보드로 이동합니다.");
+      location.reload(); 
     }
-
-    // [날짜 제어]
-    function updateDateDisplay() {
-      const dateStr = currentDate.toISOString().split('T')[0];
-      document.getElementById('current-date-display').innerText = dateStr;
-      pullTodos(dateStr);
-      document.getElementById('diary-text').value = localStorage.getItem('diary_' + dateStr) || '';
-    }
-
-    function moveDate(days) {
-      currentDate.setDate(currentDate.getDate() + days);
-      updateDateDisplay();
-    }
-
-    // [투두]
-    async function pullTodos(date) {
-      const { data } = await supabase.from('tasks').select('*').eq('due', date).order('created_at', { ascending: true });
-      const list = document.getElementById('todo-list');
-      list.innerHTML = (data || []).map(t => `
-        <li class="${t.done ? 'done' : ''}">
-          <span>${t.text}</span>
-          <span onclick="toggleTodo('${t.id}', ${t.done})" style="cursor:pointer;">${t.done ? '✅' : '⬜'}</span>
-        </li>`).join('');
-    }
-
-    async function addTodo() {
-      const text = document.getElementById('todo-input').value;
-      if(!text) return;
-      const dateStr = currentDate.toISOString().split('T')[0];
-      const { data: { user } } = await supabase.auth.getUser();
-      await supabase.from('tasks').insert([{ user_id: user.id, text: text, due: dateStr, done: false }]);
-      document.getElementById('todo-input').value = '';
-      pullTodos(dateStr);
-    }
-
-    async function toggleTodo(id, status) {
-      await supabase.from('tasks').update({ done: !status }).eq('id', id);
-      updateDateDisplay();
-    }
-
-    // [기타]
-    function saveDiary() {
-      const dateStr = currentDate.toISOString().split('T')[0];
-      localStorage.setItem('diary_' + dateStr, document.getElementById('diary-text').value);
-      alert('기록 완료! 🎀');
-    }
-
-    function startClock() {
-      setInterval(() => { document.getElementById('time-clock').innerText = new Date().toLocaleTimeString('ko-KR'); }, 1000);
-    }
-
-    function getWeather() {
-      // 간단한 예시용 날씨 텍스트
-      const weathers = ['☀️ 맑음', '☁️ 구름 조금', '🌦️ 한때 비', '⛅ 화창함'];
-      document.getElementById('weather-info').innerText = "오늘의 서울: " + weathers[Math.floor(Math.random()*weathers.length)];
-    }
-  </script>
-</body>
-</html>
+  } catch (e) {
+    alert("⚠️ 치명적 에러: " + e.message);
+  }
+}
