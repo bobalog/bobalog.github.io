@@ -1,180 +1,81 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bobalog 본부 🧋</title>
-  <style>
-    @font-face { font-family: 'Mabiyet'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2207-01@1.0/MabinogiClassicR.woff2') format('woff2'); }
-    :root { --pink: #ffafcc; --purple: #cdb4db; --bg: #fdf0f5; }
-    body { background: var(--bg); font-family: 'Mabiyet', sans-serif; color: #555; margin: 0; display: flex; justify-content: center; }
-    .container { width: 100%; max-width: 480px; padding: 20px; box-sizing: border-box; }
-    .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 8px 15px rgba(255,175,204,0.1); margin-bottom: 20px; border: 2px solid #fff; }
-    .btn { padding: 12px; border-radius: 15px; border: none; color: white; cursor: pointer; font-weight: bold; font-family: 'Mabiyet'; font-size: 15px; }
-    .pink-btn { background: var(--pink); width: 100%; }
-    .purple-btn { background: var(--purple); color: white; text-decoration: none; display: inline-block; text-align: center; }
-    input, textarea { width: 100%; padding: 12px; border: 1px solid #ffc8dd; border-radius: 12px; font-family: 'Mabiyet'; margin-bottom: 10px; box-sizing: border-box; }
-    .hidden { display: none !important; }
-    .header-links { display: flex; gap: 5px; margin-bottom: 15px; }
-    .stock-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-    .date-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-weight: bold; color: var(--pink); }
-    ul { list-style: none; padding: 0; }
-    li { background: #fff5f8; padding: 10px; margin: 5px 0; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
-    .done { text-decoration: line-through; opacity: 0.5; }
-  </style>
+    <meta charset="UTF-8">
+    <title>bobalog 초강력 버전 🧋</title>
+    <style>
+        @font-face { font-family: 'Mabiyet'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2207-01@1.0/MabinogiClassicR.woff2') format('woff2'); }
+        body { background: #fdf0f5; font-family: 'Mabiyet', sans-serif; padding: 20px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 480px; }
+        .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 8px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .btn { padding: 12px; border-radius: 15px; border: none; background: #ffafcc; color: white; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
+        input { width: 100%; padding: 12px; border: 1px solid #ffc8dd; border-radius: 12px; box-sizing: border-box; margin-bottom: 10px; }
+        .done { text-decoration: line-through; opacity: 0.5; }
+        /* 이번엔 hidden을 아예 안 써서 무조건 보이게 함! */
+    </style>
 </head>
 <body>
 
 <div class="container">
-  
-  <div id="login-page" class="card">
-    <h1 style="color: var(--pink); text-align: center;">🧋 bobalog</h1>
-    <p style="text-align: center; font-size: 14px;">태윤아, 로그인이 필요해!</p>
-    <input type="email" id="email" placeholder="이메일" value="abc.bobatea@gmail.com">
-    <input type="password" id="password" placeholder="비밀번호" value="rltgjqm">
-    <button class="btn pink-btn" id="login-btn">대시보드 입장하기 ✅</button>
-  </div>
+    <div class="card" style="text-align: center;">
+        <h1 style="color: #ff8fab;">🧋 bobalog 본부</h1>
+        <p id="status-text" style="font-size: 12px; color: red;">⚠️ 로그인 전 (로컬 모드)</p>
+    </div>
 
-  <div id="dashboard-page" class="hidden">
-    <div class="header-links">
-      <a href="https://gemini.google.com" target="_blank" class="btn purple-btn" style="flex:1">Gemini</a>
-      <a href="https://chatgpt.com" target="_blank" class="btn purple-btn" style="flex:1">ChatGPT</a>
-      <a href="https://grok.com" target="_blank" class="btn purple-btn" style="flex:1">Grok</a>
+    <div class="card" id="auth-box">
+        <input type="email" id="u-email" value="abc.bobatea@gmail.com">
+        <input type="password" id="u-pw" value="rltgjqm">
+        <button class="btn" onclick="emergencyLogin()">인증하고 DB 연결하기 ✅</button>
     </div>
 
     <div class="card">
-      <div class="stock-grid">
-        <a href="https://finance.naver.com/item/main.naver?code=005930" target="_blank" class="btn pink-btn" style="text-decoration:none; text-align:center;">삼성전자 📈</a>
-        <a href="https://finance.naver.com/sise/sise_index.naver?code=KOSPI" target="_blank" class="btn pink-btn" style="text-decoration:none; text-align:center;">KOSPI 📊</a>
-      </div>
-      <div style="text-align: center;">
-        <h2 id="clock" style="margin: 5px 0; color: var(--pink);">00:00:00</h2>
-        <p id="weather">☀️ 오늘 날씨 최고!</p>
-      </div>
+        <div style="display: flex; gap: 5px; margin-bottom: 15px;">
+            <a href="https://gemini.google.com" target="_blank" style="flex:1; background:#cdb4db; color:white; padding:10px; border-radius:10px; text-decoration:none; text-align:center;">Gemini</a>
+            <a href="https://chatgpt.com" target="_blank" style="flex:1; background:#cdb4db; color:white; padding:10px; border-radius:10px; text-decoration:none; text-align:center;">GPT</a>
+        </div>
+        <input type="text" id="t-input" placeholder="할 일 입력...">
+        <button class="btn" style="background: #cdb4db;" onclick="localAdd()">할 일 추가</button>
+        <ul id="t-list"></ul>
     </div>
-
-    <div class="card">
-      <div class="date-nav">
-        <button onclick="changeDate(-1)" style="background:none; border:none; cursor:pointer; color:var(--pink); font-weight:bold;">◀</button>
-        <span id="date-text">2025-12-19</span>
-        <button onclick="changeDate(1)" style="background:none; border:none; cursor:pointer; color:var(--pink); font-weight:bold;">▶</button>
-      </div>
-      <div style="display: flex; gap: 5px;">
-        <input type="text" id="todo-input" placeholder="할 일 입력..." style="margin:0;">
-        <button id="add-todo-btn" class="btn purple-btn">추가</button>
-      </div>
-      <ul id="todo-list"></ul>
-    </div>
-
-    <div class="card">
-      <h2>📝 오늘의 기록</h2>
-      <textarea id="diary-box" rows="4" placeholder="오늘 어땠어?"></textarea>
-      <button onclick="saveDiary()" class="btn pink-btn">일기 저장 🎀</button>
-    </div>
-
-    <button onclick="logout()" style="width:100%; background:none; border:none; color:#ccc; cursor:pointer; margin-top:10px;">로그아웃</button>
-  </div>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-  const S_URL = "https://hyydywzsvnfhdrexntnl.supabase.co";
-  const S_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5eWR5d3pzdm5maGRyZXhudG5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxMjE3MTAsImV4cCI6MjA4MTY5NzcxMH0.2vrbtBozzHeUle9a1foYmsz4o3jkPN5GtbBM0F-eK20";
-  let supabase, viewDate = new Date();
+    let supabase;
+    // 시작하자마자 실행
+    window.onload = () => {
+        console.log("페이지 로드 완료");
+        try {
+            supabase = window.supabase.createClient("https://hyydywzsvnfhdrexntnl.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5eWR5d3pzdm5maGRyZXhudG5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxMjE3MTAsImV4cCI6MjA4MTY5NzcxMH0.2vrbtBozzHeUle9a1foYmsz4o3jkPN5GtbBM0F-eK20");
+        } catch(e) { console.error("Supabase 로드 실패"); }
+        renderLocal();
+    };
 
-  // 초기화
-  window.addEventListener('DOMContentLoaded', async () => {
-    supabase = window.supabase.createClient(S_URL, S_KEY);
-    
-    // 세션 확인
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session) showMain();
-    else showLogin();
+    async function emergencyLogin() {
+        alert("버튼 눌림! 인증 시도합니다."); // 클릭 확인용
+        const email = document.getElementById('u-email').value;
+        const pw = document.getElementById('u-pw').value;
+        
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password: pw });
+        
+        if (error) {
+            alert("실패: " + error.message);
+        } else {
+            alert("성공! 이제 DB랑 동기화돼!");
+            document.getElementById('status-text').innerText = "✅ DB 연결 완료";
+            document.getElementById('status-text').style.color = "green";
+        }
+    }
 
-    // 버튼 이벤트 리스너 (이게 젤 확실함)
-    document.getElementById('login-btn').addEventListener('click', login);
-    document.getElementById('add-todo-btn').addEventListener('click', addTodo);
-    
-    // 시계 시작
-    setInterval(() => {
-      document.getElementById('clock').innerText = new Date().toLocaleTimeString('ko-KR');
-    }, 1000);
-  });
-
-  function showLogin() {
-    document.getElementById('login-page').classList.remove('hidden');
-    document.getElementById('dashboard-page').classList.add('hidden');
-  }
-
-  function showMain() {
-    document.getElementById('login-page').classList.add('hidden');
-    document.getElementById('dashboard-page').classList.remove('hidden');
-    renderDate();
-  }
-
-  // 로그인 함수
-  async function login() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) alert("로그인 실패ㅠ: " + error.message);
-    else location.reload();
-  }
-
-  async function logout() {
-    await supabase.auth.signOut();
-    location.reload();
-  }
-
-  // 날짜 제어
-  function renderDate() {
-    const dateStr = viewDate.toISOString().split('T')[0];
-    document.getElementById('date-text').innerText = dateStr;
-    loadTodos(dateStr);
-    document.getElementById('diary-box').value = localStorage.getItem('diary_' + dateStr) || '';
-  }
-
-  function changeDate(n) {
-    viewDate.setDate(viewDate.getDate() + n);
-    renderDate();
-  }
-
-  // 투두 (DB 연동)
-  async function loadTodos(date) {
-    const { data } = await supabase.from('tasks').select('*').eq('due', date).order('created_at', { ascending: true });
-    const list = document.getElementById('todo-list');
-    list.innerHTML = (data || []).map(t => `
-      <li class="${t.done ? 'done' : ''}">
-        <span>${t.text}</span>
-        <button onclick="toggleTodo('${t.id}', ${t.done})" style="border:none; background:none; cursor:pointer;">${t.done ? '✅' : '⬜'}</button>
-      </li>
-    `).join('');
-  }
-
-  async function addTodo() {
-    const input = document.getElementById('todo-input');
-    if (!input.value) return;
-    const dateStr = viewDate.toISOString().split('T')[0];
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase.from('tasks').insert([{ user_id: user.id, text: input.value, due: dateStr, done: false }]);
-    input.value = '';
-    loadTodos(dateStr);
-  }
-
-  async function toggleTodo(id, current) {
-    await supabase.from('tasks').update({ done: !current }).eq('id', id);
-    renderDate();
-  }
-
-  // 일기 저장 (로컬)
-  function saveDiary() {
-    const dateStr = viewDate.toISOString().split('T')[0];
-    localStorage.setItem('diary_' + dateStr, document.getElementById('diary-box').value);
-    alert('저장 완료! ✨');
-  }
+    function localAdd() {
+        const val = document.getElementById('t-input').value;
+        if(!val) return;
+        const list = document.getElementById('t-list');
+        const li = document.createElement('li');
+        li.innerText = val;
+        list.appendChild(li);
+        document.getElementById('t-input').value = '';
+    }
 </script>
-
 </body>
 </html>
