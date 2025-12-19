@@ -93,35 +93,28 @@
 
   </div>
 
-  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
-    // ✅ 너의 프로젝트 URL
     const SUPABASE_URL = "https://hyydywzsvnfhdrexntnl.supabase.co";
-
-    // ⚠️ 여기에 Supabase anon key를 "대시보드에서 다시 복사한 값"으로 붙여넣기!
-    // (복붙 중 이상한 문자 섞이면 에러날 수 있어)
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5eWR5d3pzdm5maGRyZXhudG5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxMjE3MTAsImV4cCI6MjA4MTY5NzcxMH0.2vrbtBozzHeUle9a1foYmsz4o3jkPN5GtbBM0F-eK20";
 
     let sb = null;
 
     document.addEventListener("DOMContentLoaded", () => {
-      // 1) 라이브러리 로드 확인
       if (!window.supabase) {
         setDebug("Supabase CDN 로드 실패 (네트워크 탭 확인)");
         alert("Supabase 라이브러리 로드 실패!");
         return;
       }
 
-      // 2) Supabase client 생성 (🔥 헤더 ASCII 강제 = 지금 에러 해결 핵심!)
       sb = window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_ANON_KEY,
         {
           global: {
             headers: {
-              "X-Client-Info": "bobalog-web" // ✅ 한글/이모지 절대 금지
+              "X-Client-Info": "bobalog-web" // ✅ ASCII만
             }
           }
         }
@@ -129,7 +122,6 @@
 
       setDebug("DOM 로드 OK / Supabase client 준비됨 ✅");
 
-      // 3) 버튼 이벤트 연결 (GitHub Pages에서 안정적)
       document.getElementById("loginBtn").addEventListener("click", emergencyLogin);
       document.getElementById("addBtn").addEventListener("click", localAdd);
     });
@@ -141,7 +133,6 @@
     }
 
     async function emergencyLogin() {
-      // ✅ 여기 알림이 뜨면 "버튼 클릭 자체"는 정상!
       alert("버튼 클릭 ✅ 로그인 시도!");
 
       const email = document.getElementById("u-email").value.trim();
@@ -149,12 +140,6 @@
 
       if (!sb) {
         alert("Supabase 초기화가 안 됐어!");
-        return;
-      }
-
-      // 키가 아직 placeholder면 안내
-      if (SUPABASE_ANON_KEY.includes("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5eWR5d3pzdm5maGRyZXhudG5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxMjE3MTAsImV4cCI6MjA4MTY5NzcxMH0.2vrbtBozzHeUle9a1foYmsz4o3jkPN5GtbBM0F-eK20")) {
-        alert("SUPABASE_ANON_KEY를 실제 anon key로 바꿔줘!");
         return;
       }
 
@@ -168,7 +153,6 @@
           return;
         }
 
-        // 성공 UI
         document.getElementById("status-text").innerText = "✅ DB 연결 완료";
         document.getElementById("status-text").style.color = "green";
         setDebug("로그인 성공 ✅");
