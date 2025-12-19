@@ -3,178 +3,97 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>bobalog 🧋</title>
+  <title>bobalog 본부 🧋</title>
   <style>
-    @font-face {
-      font-family: 'Mabiyet';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2207-01@1.0/MabinogiClassicR.woff2') format('woff2');
-      font-weight: normal; font-display: swap;
-    }
-    :root { --main-pink: #ffafcc; --sub-pink: #ffc8dd; --bg-color: #fdf0f5; --text-color: #555; }
-    body { background-color: var(--bg-color); font-family: 'Mabiyet', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; color: var(--text-color); margin: 0; }
-    .container { width: 100%; max-width: 520px; }
-    .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 10px 20px rgba(255,175,204,0.15); margin-bottom: 20px; border: 2px solid #fff; }
-    .btn { padding: 10px 15px; border-radius: 15px; border: none; color: white; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; transition: 0.2s; display: inline-block; font-family: 'Mabiyet'; }
-    .ai-btn { background: var(--main-pink); }
-    .stock-btn { background: #cdb4db; }
-    .danger-btn { background: #ff5d73; }
-    h1, h2 { color: #ff8fab; text-align: center; }
-    #clock { color: #ff8fab; font-weight: bold; font-size: 1.2em; text-align:center; margin: 10px 0; }
-    input, textarea { width: 100%; padding: 12px; border: 1px solid var(--sub-pink); border-radius: 12px; outline: none; box-sizing: border-box; font-family: 'Mabiyet'; font-size: 15px; margin-bottom: 10px; }
-    ul { list-style: none; padding: 0; }
-    li { background: #fff5f8; padding: 12px; margin: 8px 0; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
-    .done { text-decoration: line-through; opacity: 0.5; }
-    .hidden { display: none; } /* 로그인 전 숨김 처리용 */
-    .chip { font-size:11px; padding:3px 8px; border-radius:999px; background:#ffe5ee; color:#a35a72; }
+    @font-face { font-family: 'Mabiyet'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2207-01@1.0/MabinogiClassicR.woff2') format('woff2'); }
+    :root { --main-pink: #ffafcc; --bg-color: #fdf0f5; }
+    body { background-color: var(--bg-color); font-family: 'Mabiyet', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; color: #555; margin: 0; }
+    .container { width: 100%; max-width: 500px; }
+    .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 8px 16px rgba(0,0,0,0.05); margin-bottom: 20px; text-align: center; }
+    .btn { width: 100%; padding: 12px; border-radius: 15px; border: none; background: #cdb4db; color: white; font-weight: bold; cursor: pointer; font-family: 'Mabiyet'; font-size: 16px; transition: 0.3s; }
+    .btn:hover { background: #b592c4; }
+    .chip { font-size: 12px; padding: 4px 10px; border-radius: 999px; background: #ffe5ee; color: #a35a72; display: inline-block; margin-top: 10px; }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <div class="card" style="text-align:center;">
-      <h1>🧋 bobalog 🧋</h1>
-      <p id="clock"></p>
-      <div id="login-chip" class="chip">상태: 연결 확인 중...</div>
+    <div class="card">
+      <h1 style="color: #ff8fab; margin: 0;">🧋 bobalog 본부</h1>
+      <div id="login-chip" class="chip">🚀 시스템 로딩 중...</div>
     </div>
 
-    <div id="auth-card" class="card">
-      <h2>🔐 접속 인증</h2>
-      <button class="btn stock-btn" onclick="oneClickLogin()" style="width:100%; font-size: 16px;">태윤이로 로그인하기 ✅</button>
-      <p style="font-size: 12px; color: #999; text-align: center; margin-top: 10px;">인증 정보: abc.bobatea@gmail.com</p>
+    <div id="auth-section" class="card">
+      <h2 style="color: #ff8fab;">🔐 태윤 전용 로그인</h2>
+      <button class="btn" onclick="handleLogin()">접속하기 ✅</button>
     </div>
 
-    <div id="main-content" class="hidden">
-      
-      <div class="card">
-        <h2>📈 실시간 브리핑</h2>
-        <div style="display: flex; gap: 5px; justify-content: center; flex-wrap: wrap;">
-          <a href="https://finance.naver.com/item/main.naver?code=005930" target="_blank" class="btn stock-btn">삼성전자</a>
-          <a href="https://finance.naver.com/sise/sise_index.naver?code=KOSPI" target="_blank" class="btn stock-btn">KOSPI</a>
-          <a href="https://gemini.google.com" target="_blank" class="btn ai-btn">Gemini</a>
-          <a href="https://chatgpt.com" target="_blank" class="btn ai-btn">GPT</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>✅ To-Do List</h2>
-        <div style="display: flex; gap: 5px;">
-          <input type="text" id="todo-input" placeholder="할 일을 입력해!" style="flex: 1;">
-          <button onclick="addTodo()" class="btn ai-btn" style="height: 45px;">추가</button>
-        </div>
-        <ul id="todo-list"></ul>
-      </div>
-
-      <div class="card">
-        <h2>📝 기록 보관소</h2>
-        <div id="calendar-header" style="text-align: center; font-weight: bold; margin-bottom: 10px; color: #ff8fab;"></div>
-        <textarea id="diary-text" placeholder="오늘 하루는 어땠어?"></textarea>
-        <button onclick="saveDiary()" class="btn ai-btn" style="width:100%;">오늘 기록 저장하기 🎀</button>
-      </div>
-
-      <button onclick="logout()" class="btn danger-btn" style="width:100%; margin-top: 10px; opacity: 0.7;">로그아웃</button>
+    <div id="main-section" class="card hidden">
+      <h2 style="color: #ff8fab;">성공! 🎉</h2>
+      <p>태윤아 이제 기능을 사용할 수 있어!</p>
+      <button class="btn" style="background:#ffafcc" onclick="location.reload()">새로고침</button>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.js"></script>
+
   <script>
     const SUPABASE_URL = "https://hyydywzsvnfhdrexntnl.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5eWR5d3pzdm5maGRyZXhudG5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxMjE3MTAsImV4cCI6MjA4MTY5NzcxMH0.2vrbtBozzHeUle9a1foYmsz4o3jkPN5GtbBM0F-eK20";
     
     let supabase;
-    let todos = [];
+    const chip = document.getElementById('login-chip');
 
-    // [1] 초기화 및 세션 체크
+    // 1. 페이지 로드 시 바로 실행
     async function init() {
-      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      const { data: { session } } = await supabase.auth.getSession();
-      updateUI(session);
-      if(session) pullTodos();
-    }
+      try {
+        // 라이브러리 로드 체크
+        if (typeof window.supabase === 'undefined') {
+          chip.innerText = "⚠️ 서버 연결 도구 로드 실패 (새로고침 해줘!)";
+          return;
+        }
 
-    // [2] UI 상태 변경 (로그인 전/후)
-    function updateUI(session) {
-      const authCard = document.getElementById('auth-card');
-      const mainContent = document.getElementById('main-content');
-      const chip = document.getElementById('login-chip');
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        // 로그인 세션 확인
+        const { data: { session }, error } = await supabase.auth.getSession();
+        if (error) throw error;
 
-      if (session) {
-        authCard.classList.add('hidden');
-        mainContent.classList.remove('hidden');
-        chip.innerText = `태윤님 접속 중 🟢`;
-        document.getElementById('calendar-header').innerText = `📅 ${new Date().toLocaleDateString()}`;
-      } else {
-        authCard.classList.remove('hidden');
-        mainContent.classList.add('hidden');
-        chip.innerText = `로그인 필요 🔴`;
+        if (session) {
+          document.getElementById('auth-section').classList.add('hidden');
+          document.getElementById('main-section').classList.remove('hidden');
+          chip.innerText = "태윤님 인증 완료 🟢";
+        } else {
+          chip.innerText = "로그인 대기 중... 🔴";
+        }
+      } catch (e) {
+        chip.innerText = "❌ 에러 발생: " + e.message;
+        console.error(e);
       }
     }
 
-    // [3] 로그인 로직
-    async function oneClickLogin() {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: "abc.bobatea@gmail.com",
-        password: "rltgjqm"
-      });
-      if (error) alert("인증 실패: " + error.message);
-      else location.reload();
+    // 2. 로그인 버튼 클릭
+    async function handleLogin() {
+      chip.innerText = "🔑 인증 시도 중...";
+      try {
+        const { error } = await supabase.auth.signInWithPassword({
+          email: "abc.bobatea@gmail.com",
+          password: "rltgjqm"
+        });
+
+        if (error) {
+          alert("실패: " + error.message);
+          chip.innerText = "로그인 실패 ❌";
+        } else {
+          location.reload(); // 성공하면 새로고침해서 세션 적용
+        }
+      } catch (e) {
+        alert("에러: " + e.message);
+      }
     }
 
-    async function logout() {
-      await supabase.auth.signOut();
-      location.reload();
-    }
-
-    // [4] 투두 리스트 (DB 연동)
-    async function pullTodos() {
-      const { data } = await supabase.from('tasks').select('*').order('created_at', { ascending: false });
-      todos = data || [];
-      renderTodos();
-    }
-
-    function renderTodos() {
-      const list = document.getElementById('todo-list');
-      list.innerHTML = '';
-      todos.forEach((t, i) => {
-        const li = document.createElement('li');
-        if(t.done) li.classList.add('done');
-        li.innerHTML = `<span>${t.text}</span>
-          <div>
-            <button class="chip" onclick="toggleTodo(${i})" style="cursor:pointer;">V</button>
-            <button class="chip" onclick="deleteTodo(${i})" style="cursor:pointer; background:#ffccd5;">X</button>
-          </div>`;
-        list.appendChild(li);
-      });
-    }
-
-    async function addTodo() {
-      const input = document.getElementById('todo-input');
-      if(!input.value) return;
-      const { data: { user } } = await supabase.auth.getUser();
-      await supabase.from('tasks').insert([{ user_id: user.id, text: input.value, done: false }]);
-      input.value = '';
-      pullTodos();
-    }
-
-    async function toggleTodo(idx) {
-      await supabase.from('tasks').update({ done: !todos[idx].done }).eq('id', todos[idx].id);
-      pullTodos();
-    }
-
-    async function deleteTodo(idx) {
-      await supabase.from('tasks').delete().eq('id', todos[idx].id);
-      pullTodos();
-    }
-
-    // [5] 일기 저장 (로컬)
-    function saveDiary() {
-      localStorage.setItem('bobalog_diary', document.getElementById('diary-text').value);
-      alert('오늘의 기록이 저장되었어! 🎀');
-    }
-
-    // 시계
-    setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleString('ko-KR'); }, 1000);
-    document.getElementById('diary-text').value = localStorage.getItem('bobalog_diary') || '';
-    
+    // 실행 시작!
     init();
   </script>
 </body>
