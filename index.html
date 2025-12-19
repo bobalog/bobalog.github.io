@@ -4,91 +4,192 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>bobalog 초강력 버전 🧋</title>
+
   <style>
-    @font-face { font-family: 'Mabiyet'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2207-01@1.0/MabinogiClassicR.woff2') format('woff2'); }
-    body { background: #fdf0f5; font-family: 'Mabiyet', sans-serif; padding: 20px; display: flex; justify-content: center; }
+    @font-face {
+      font-family: 'Mabiyet';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2207-01@1.0/MabinogiClassicR.woff2') format('woff2');
+      font-weight: normal;
+      font-display: swap;
+    }
+
+    body {
+      background: #fdf0f5;
+      font-family: 'Mabiyet', sans-serif;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
     .container { width: 100%; max-width: 480px; }
-    .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 8px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
-    .btn { padding: 12px; border-radius: 15px; border: none; background: #ffafcc; color: white; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
-    input { width: 100%; padding: 12px; border: 1px solid #ffc8dd; border-radius: 12px; box-sizing: border-box; margin-bottom: 10px; }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 25px;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+    .btn {
+      padding: 12px;
+      border-radius: 15px;
+      border: none;
+      background: #ffafcc;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ffc8dd;
+      border-radius: 12px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+    ul { padding-left: 18px; }
+    li { margin: 6px 0; }
+    .small { font-size: 12px; }
+    .row { display:flex; gap: 6px; margin-bottom: 15px; }
+    .linkbtn {
+      flex:1;
+      background:#cdb4db;
+      color:white;
+      padding:10px;
+      border-radius:10px;
+      text-decoration:none;
+      text-align:center;
+      display:block;
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
+
     <div class="card" style="text-align:center;">
       <h1 style="color:#ff8fab;">🧋 bobalog 본부</h1>
-      <p id="status-text" style="font-size:12px;color:red;">⚠️ 로그인 전</p>
+      <p id="status-text" class="small" style="color:red;">⚠️ 로그인 전 (로컬 모드)</p>
+      <p id="debug" class="small" style="color:#888; margin-top:6px;"></p>
     </div>
 
     <div class="card" id="auth-box">
-      <input type="email" id="u-email" placeholder="email" />
-      <input type="password" id="u-pw" placeholder="password" />
+      <input type="email" id="u-email" value="abc.bobatea@gmail.com" />
+      <input type="password" id="u-pw" value="rltgjqm" />
       <button class="btn" id="loginBtn" type="button">인증하고 DB 연결하기 ✅</button>
     </div>
 
     <div class="card">
+      <div class="row">
+        <a class="linkbtn" href="https://gemini.google.com" target="_blank" rel="noopener noreferrer">Gemini</a>
+        <a class="linkbtn" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer">GPT</a>
+      </div>
+
       <input type="text" id="t-input" placeholder="할 일 입력..." />
-      <button class="btn" style="background:#cdb4db;" id="addBtn" type="button">할 일 추가</button>
+      <button class="btn" id="addBtn" type="button" style="background:#cdb4db;">할 일 추가</button>
       <ul id="t-list"></ul>
     </div>
+
   </div>
 
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
+    // ✅ 너의 프로젝트 URL
     const SUPABASE_URL = "https://hyydywzsvnfhdrexntnl.supabase.co";
-    const SUPABASE_ANON_KEY = "너의_anon_key_여기"; // 이미 쓰던 키로 넣어
+
+    // ⚠️ 여기에 Supabase anon key를 "대시보드에서 다시 복사한 값"으로 붙여넣기!
+    // (복붙 중 이상한 문자 섞이면 에러날 수 있어)
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5eWR5d3pzdm5maGRyZXhudG5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxMjE3MTAsImV4cCI6MjA4MTY5NzcxMH0.2vrbtBozzHeUle9a1foYmsz4o3jkPN5GtbBM0F-eK20";
 
     let sb = null;
 
     document.addEventListener("DOMContentLoaded", () => {
-      console.log("DOM 로드 완료");
-
-      // 1) Supabase 라이브러리 로드 체크
+      // 1) 라이브러리 로드 확인
       if (!window.supabase) {
-        alert("Supabase 라이브러리 로드 실패! (CDN 차단/오프라인/주소 확인)");
+        setDebug("Supabase CDN 로드 실패 (네트워크 탭 확인)");
+        alert("Supabase 라이브러리 로드 실패!");
         return;
       }
 
-      // 2) 클라이언트 생성
-      sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      console.log("Supabase client ready:", !!sb);
+      // 2) Supabase client 생성 (🔥 헤더 ASCII 강제 = 지금 에러 해결 핵심!)
+      sb = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY,
+        {
+          global: {
+            headers: {
+              "X-Client-Info": "bobalog-web" // ✅ 한글/이모지 절대 금지
+            }
+          }
+        }
+      );
 
-      // 3) 버튼 이벤트 연결 (여기가 핵심)
-      document.getElementById("loginBtn").addEventListener("click", login);
+      setDebug("DOM 로드 OK / Supabase client 준비됨 ✅");
+
+      // 3) 버튼 이벤트 연결 (GitHub Pages에서 안정적)
+      document.getElementById("loginBtn").addEventListener("click", emergencyLogin);
       document.getElementById("addBtn").addEventListener("click", localAdd);
     });
 
-    async function login() {
-      alert("버튼 클릭 됨 ✅ (여기 뜨면 클릭 문제는 끝!)");
+    function setDebug(msg) {
+      const el = document.getElementById("debug");
+      if (el) el.textContent = msg;
+      console.log(msg);
+    }
+
+    async function emergencyLogin() {
+      // ✅ 여기 알림이 뜨면 "버튼 클릭 자체"는 정상!
+      alert("버튼 클릭 ✅ 로그인 시도!");
 
       const email = document.getElementById("u-email").value.trim();
       const password = document.getElementById("u-pw").value;
 
       if (!sb) {
-        alert("Supabase 초기화가 안 됐어! 콘솔(F12) 확인해줘.");
+        alert("Supabase 초기화가 안 됐어!");
         return;
       }
 
-      const { data, error } = await sb.auth.signInWithPassword({ email, password });
-
-      if (error) {
-        alert("로그인 실패: " + error.message);
-        console.log(error);
+      // 키가 아직 placeholder면 안내
+      if (SUPABASE_ANON_KEY.includes("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5eWR5d3pzdm5maGRyZXhudG5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxMjE3MTAsImV4cCI6MjA4MTY5NzcxMH0.2vrbtBozzHeUle9a1foYmsz4o3jkPN5GtbBM0F-eK20")) {
+        alert("SUPABASE_ANON_KEY를 실제 anon key로 바꿔줘!");
         return;
       }
 
-      document.getElementById("status-text").innerText = "✅ DB 연결 완료";
-      document.getElementById("status-text").style.color = "green";
-      alert("성공! 🎉");
-      console.log("login data:", data);
+      try {
+        const { data, error } = await sb.auth.signInWithPassword({ email, password });
+
+        if (error) {
+          alert("로그인 실패: " + error.message);
+          setDebug("로그인 실패: " + error.message);
+          console.log(error);
+          return;
+        }
+
+        // 성공 UI
+        document.getElementById("status-text").innerText = "✅ DB 연결 완료";
+        document.getElementById("status-text").style.color = "green";
+        setDebug("로그인 성공 ✅");
+        alert("성공! 이제 DB 연결됨 🎉");
+
+        console.log("login data:", data);
+      } catch (e) {
+        alert("예외 발생: " + e.message);
+        setDebug("예외: " + e.message);
+        console.log(e);
+      }
     }
 
     function localAdd() {
       const val = document.getElementById("t-input").value.trim();
       if (!val) return;
+
       const li = document.createElement("li");
-      li.innerText = val;
+      li.textContent = val;
       document.getElementById("t-list").appendChild(li);
+
       document.getElementById("t-input").value = "";
     }
   </script>
