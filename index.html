@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>bobalog 생산성 본부 🧋</title>
+  <title>bobalog 🧋</title>
   <style>
     @font-face {
       font-family: 'Mabiyet';
@@ -13,91 +13,169 @@
     :root { --main-pink: #ffafcc; --sub-pink: #ffc8dd; --bg-color: #fdf0f5; --text-color: #555; }
     body { background-color: var(--bg-color); font-family: 'Mabiyet', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; color: var(--text-color); margin: 0; }
     .container { width: 100%; max-width: 520px; }
-    .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 10px 20px rgba(255,175,204,0.2); margin-bottom: 20px; border: 2px solid #fff; }
-    .btn { padding: 12px; border-radius: 15px; border: none; color: white; cursor: pointer; text-decoration: none; font-size: 15px; font-weight: bold; transition: 0.2s; display: inline-block; margin: 2px; font-family: 'Mabiyet'; text-align: center; }
+    .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 10px 20px rgba(255,175,204,0.15); margin-bottom: 20px; border: 2px solid #fff; }
+    .btn { padding: 10px 15px; border-radius: 15px; border: none; color: white; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; transition: 0.2s; display: inline-block; font-family: 'Mabiyet'; }
     .ai-btn { background: var(--main-pink); }
-    .stock-btn { background: #cdb4db; width: 100%; }
-    h1 { color: #ff8fab; margin: 10px 0; font-size: 1.8em; text-align: center; }
-    #clock { color: #ff8fab; font-weight: bold; font-size: 1.1em; text-align:center; }
-    .chip { font-size:12px; padding:5px 10px; border-radius:999px; background:#ffe5ee; color:#a35a72; display: inline-block; margin-top: 10px; }
-    input { width: 100%; padding: 12px; border: 1px solid var(--sub-pink); border-radius: 12px; outline: none; box-sizing: border-box; font-family: 'Mabiyet'; font-size: 16px; margin-bottom: 10px; }
+    .stock-btn { background: #cdb4db; }
+    .danger-btn { background: #ff5d73; }
+    h1, h2 { color: #ff8fab; text-align: center; }
+    #clock { color: #ff8fab; font-weight: bold; font-size: 1.2em; text-align:center; margin: 10px 0; }
+    input, textarea { width: 100%; padding: 12px; border: 1px solid var(--sub-pink); border-radius: 12px; outline: none; box-sizing: border-box; font-family: 'Mabiyet'; font-size: 15px; margin-bottom: 10px; }
+    ul { list-style: none; padding: 0; }
+    li { background: #fff5f8; padding: 12px; margin: 8px 0; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
+    .done { text-decoration: line-through; opacity: 0.5; }
+    .hidden { display: none; } /* 로그인 전 숨김 처리용 */
+    .chip { font-size:11px; padding:3px 8px; border-radius:999px; background:#ffe5ee; color:#a35a72; }
   </style>
 </head>
 <body>
+
   <div class="container">
     <div class="card" style="text-align:center;">
-      <h1>🧋 bobalog 본부</h1>
+      <h1>🧋 bobalog 🧋</h1>
       <p id="clock"></p>
+      <div id="login-chip" class="chip">상태: 연결 확인 중...</div>
     </div>
 
-    <div class="card">
-      <h2 style="color: #ff8fab;">🔐 로그인</h2>
-      <button class="btn stock-btn" onclick="oneClickLogin()">로그인하기 ✅</button>
-      <div id="login-chip" class="chip">상태: 연결 대기 중...</div>
+    <div id="auth-card" class="card">
+      <h2>🔐 접속 인증</h2>
+      <button class="btn stock-btn" onclick="oneClickLogin()" style="width:100%; font-size: 16px;">태윤이로 로그인하기 ✅</button>
+      <p style="font-size: 12px; color: #999; text-align: center; margin-top: 10px;">인증 정보: abc.bobatea@gmail.com</p>
     </div>
 
-    <div class="card">
-      <h2 style="color: #ff8fab;">✅ To-Do</h2>
-      <input type="text" id="todo-input" placeholder="오늘 뭐 할까?" />
-      <button onclick="addTodo()" class="btn ai-btn" style="width: 100%;">추가</button>
-      <ul id="todo-list" style="list-style: none; padding: 0;"></ul>
+    <div id="main-content" class="hidden">
+      
+      <div class="card">
+        <h2>📈 실시간 브리핑</h2>
+        <div style="display: flex; gap: 5px; justify-content: center; flex-wrap: wrap;">
+          <a href="https://finance.naver.com/item/main.naver?code=005930" target="_blank" class="btn stock-btn">삼성전자</a>
+          <a href="https://finance.naver.com/sise/sise_index.naver?code=KOSPI" target="_blank" class="btn stock-btn">KOSPI</a>
+          <a href="https://gemini.google.com" target="_blank" class="btn ai-btn">Gemini</a>
+          <a href="https://chatgpt.com" target="_blank" class="btn ai-btn">GPT</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>✅ To-Do List</h2>
+        <div style="display: flex; gap: 5px;">
+          <input type="text" id="todo-input" placeholder="할 일을 입력해!" style="flex: 1;">
+          <button onclick="addTodo()" class="btn ai-btn" style="height: 45px;">추가</button>
+        </div>
+        <ul id="todo-list"></ul>
+      </div>
+
+      <div class="card">
+        <h2>📝 기록 보관소</h2>
+        <div id="calendar-header" style="text-align: center; font-weight: bold; margin-bottom: 10px; color: #ff8fab;"></div>
+        <textarea id="diary-text" placeholder="오늘 하루는 어땠어?"></textarea>
+        <button onclick="saveDiary()" class="btn ai-btn" style="width:100%;">오늘 기록 저장하기 🎀</button>
+      </div>
+
+      <button onclick="logout()" class="btn danger-btn" style="width:100%; margin-top: 10px; opacity: 0.7;">로그아웃</button>
     </div>
   </div>
 
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // 1. Supabase 초기화
     const SUPABASE_URL = "https://hyydywzsvnfhdrexntnl.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5eWR5d3pzdm5maGRyZXhudG5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxMjE3MTAsImV4cCI6MjA4MTY5NzcxMH0.2vrbtBozzHeUle9a1foYmsz4o3jkPN5GtbBM0F-eK20";
     
     let supabase;
-    try {
+    let todos = [];
+
+    // [1] 초기화 및 세션 체크
+    async function init() {
       supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      document.getElementById('login-chip').innerText = "상태: 서버 연결 성공!";
-    } catch (e) {
-      alert("Supabase 연결 실패! 인터넷 연결이나 주소를 확인해줘.");
+      const { data: { session } } = await supabase.auth.getSession();
+      updateUI(session);
+      if(session) pullTodos();
     }
 
-    // 2. 로그인 함수 (핵심!)
-    async function oneClickLogin() {
+    // [2] UI 상태 변경 (로그인 전/후)
+    function updateUI(session) {
+      const authCard = document.getElementById('auth-card');
+      const mainContent = document.getElementById('main-content');
       const chip = document.getElementById('login-chip');
-      chip.innerText = "상태: 로그인 시도 중...";
-      console.log("로그인 버튼 클릭됨!"); // 개발자 도구 확인용
 
-      try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: "abc.bobatea@gmail.com",
-          password: "rltgjqm"
-        });
-
-        if (error) {
-          alert("로그인 실패: " + error.message);
-          chip.innerText = "상태: 실패 (" + error.message + ")";
-        } else {
-          alert("태윤아 로그인 성공! 🎉");
-          chip.innerText = "상태: 로그인 ✅ (" + data.user.email + ")";
-          // 성공하면 데이터 불러오기 함수 실행 (필요시 추가)
-        }
-      } catch (err) {
-        alert("시스템 에러: " + err.message);
+      if (session) {
+        authCard.classList.add('hidden');
+        mainContent.classList.remove('hidden');
+        chip.innerText = `태윤님 접속 중 🟢`;
+        document.getElementById('calendar-header').innerText = `📅 ${new Date().toLocaleDateString()}`;
+      } else {
+        authCard.classList.remove('hidden');
+        mainContent.classList.add('hidden');
+        chip.innerText = `로그인 필요 🔴`;
       }
     }
 
-    // 3. 시계 기능
-    function updateClock() { document.getElementById('clock').innerText = new Date().toLocaleString('ko-KR'); }
-    setInterval(updateClock, 1000); updateClock();
-    
-    // 4. 간단 투두 (기본)
-    function addTodo() {
+    // [3] 로그인 로직
+    async function oneClickLogin() {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: "abc.bobatea@gmail.com",
+        password: "rltgjqm"
+      });
+      if (error) alert("인증 실패: " + error.message);
+      else location.reload();
+    }
+
+    async function logout() {
+      await supabase.auth.signOut();
+      location.reload();
+    }
+
+    // [4] 투두 리스트 (DB 연동)
+    async function pullTodos() {
+      const { data } = await supabase.from('tasks').select('*').order('created_at', { ascending: false });
+      todos = data || [];
+      renderTodos();
+    }
+
+    function renderTodos() {
+      const list = document.getElementById('todo-list');
+      list.innerHTML = '';
+      todos.forEach((t, i) => {
+        const li = document.createElement('li');
+        if(t.done) li.classList.add('done');
+        li.innerHTML = `<span>${t.text}</span>
+          <div>
+            <button class="chip" onclick="toggleTodo(${i})" style="cursor:pointer;">V</button>
+            <button class="chip" onclick="deleteTodo(${i})" style="cursor:pointer; background:#ffccd5;">X</button>
+          </div>`;
+        list.appendChild(li);
+      });
+    }
+
+    async function addTodo() {
       const input = document.getElementById('todo-input');
       if(!input.value) return;
-      const li = document.createElement('li');
-      li.innerText = "🌸 " + input.value;
-      li.style.padding = "10px";
-      li.style.borderBottom = "1px solid #eee";
-      document.getElementById('todo-list').appendChild(li);
+      const { data: { user } } = await supabase.auth.getUser();
+      await supabase.from('tasks').insert([{ user_id: user.id, text: input.value, done: false }]);
       input.value = '';
+      pullTodos();
     }
+
+    async function toggleTodo(idx) {
+      await supabase.from('tasks').update({ done: !todos[idx].done }).eq('id', todos[idx].id);
+      pullTodos();
+    }
+
+    async function deleteTodo(idx) {
+      await supabase.from('tasks').delete().eq('id', todos[idx].id);
+      pullTodos();
+    }
+
+    // [5] 일기 저장 (로컬)
+    function saveDiary() {
+      localStorage.setItem('bobalog_diary', document.getElementById('diary-text').value);
+      alert('오늘의 기록이 저장되었어! 🎀');
+    }
+
+    // 시계
+    setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleString('ko-KR'); }, 1000);
+    document.getElementById('diary-text').value = localStorage.getItem('bobalog_diary') || '';
+    
+    init();
   </script>
 </body>
 </html>
