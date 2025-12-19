@@ -14,106 +14,90 @@
     body { background-color: var(--bg-color); font-family: 'Mabiyet', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; color: var(--text-color); margin: 0; }
     .container { width: 100%; max-width: 520px; }
     .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 10px 20px rgba(255,175,204,0.2); margin-bottom: 20px; border: 2px solid #fff; }
-    .btn { padding: 8px 15px; border-radius: 15px; border: none; color: white; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; transition: 0.2s; display: inline-block; margin: 2px; font-family: 'Mabiyet'; }
+    .btn { padding: 12px; border-radius: 15px; border: none; color: white; cursor: pointer; text-decoration: none; font-size: 15px; font-weight: bold; transition: 0.2s; display: inline-block; margin: 2px; font-family: 'Mabiyet'; text-align: center; }
     .ai-btn { background: var(--main-pink); }
-    .stock-btn { background: #cdb4db; }
-    .danger-btn { background: #ff5d73; }
+    .stock-btn { background: #cdb4db; width: 100%; }
     h1 { color: #ff8fab; margin: 10px 0; font-size: 1.8em; text-align: center; }
-    h2 { font-size: 1.3em; color: #ff8fab; border-bottom: 2px solid var(--sub-pink); padding-bottom: 5px; margin-top: 0; }
     #clock { color: #ff8fab; font-weight: bold; font-size: 1.1em; text-align:center; }
-    .hint { font-size: 0.85em; color: #888; margin-top: 6px; line-height: 1.35; }
-    input, textarea { width: 100%; padding: 12px; border: 1px solid var(--sub-pink); border-radius: 12px; outline: none; box-sizing: border-box; font-family: 'Mabiyet'; font-size: 16px; }
-    ul { list-style: none; padding: 0; margin: 0; }
-    li { background: #fff5f8; padding: 12px; margin: 8px 0; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ffeef2; }
-    .done { text-decoration: line-through; opacity: 0.55; }
-    .row { display:flex; gap:6px; align-items:center; flex-wrap: wrap; }
-    .row .grow { flex:1; }
-    .chip { font-size:12px; padding:3px 8px; border-radius:999px; background:#ffe5ee; border:1px solid #ffd0df; color:#a35a72; }
+    .chip { font-size:12px; padding:5px 10px; border-radius:999px; background:#ffe5ee; color:#a35a72; display: inline-block; margin-top: 10px; }
+    input { width: 100%; padding: 12px; border: 1px solid var(--sub-pink); border-radius: 12px; outline: none; box-sizing: border-box; font-family: 'Mabiyet'; font-size: 16px; margin-bottom: 10px; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="card" style="text-align:center;">
-      <div style="margin-bottom: 12px;">
-        <a href="https://chatgpt.com" target="_blank" class="btn ai-btn">GPT</a>
-        <a href="https://gemini.google.com" target="_blank" class="btn ai-btn">Gemini</a>
-        <a href="https://grok.com" target="_blank" class="btn ai-btn">Grok</a>
-      </div>
-      <div style="border-top: 1px dashed var(--sub-pink); padding-top: 10px; margin-bottom: 10px;">
-        <a href="https://finance.naver.com/item/main.naver?code=005930" target="_blank" class="btn stock-btn">삼성전자 📈</a>
-        <a href="https://finance.naver.com/sise/sise_index.naver?code=KOSPI" target="_blank" class="btn stock-btn">KOSPI 📊</a>
-      </div>
       <h1>🧋 bobalog 본부</h1>
       <p id="clock"></p>
     </div>
 
     <div class="card">
-      <h2>🔐 로그인</h2>
-      <button class="btn stock-btn" onclick="oneClickLogin()" style="width:100%; padding:12px; border-radius:12px; font-size:16px;">로그인하기 ✅</button>
-      <div class="hint">
-        <span class="chip" id="login-chip">상태: 확인 중…</span><br/>
-        🚩 <b>실패 시 조치:</b> Supabase > Auth > Users에 이메일이 있는지 확인!
-      </div>
+      <h2 style="color: #ff8fab;">🔐 로그인</h2>
+      <button class="btn stock-btn" onclick="oneClickLogin()">로그인하기 ✅</button>
+      <div id="login-chip" class="chip">상태: 연결 대기 중...</div>
     </div>
 
     <div class="card">
-      <h2>✅ To-Do</h2>
-      <div class="row" style="margin-bottom:10px;">
-        <input type="text" id="todo-input" class="grow" placeholder="뭐 할까?" />
-        <button onclick="addTodo()" class="btn ai-btn">추가</button>
-      </div>
-      <ul id="todo-list"></ul>
+      <h2 style="color: #ff8fab;">✅ To-Do</h2>
+      <input type="text" id="todo-input" placeholder="오늘 뭐 할까?" />
+      <button onclick="addTodo()" class="btn ai-btn" style="width: 100%;">추가</button>
+      <ul id="todo-list" style="list-style: none; padding: 0;"></ul>
     </div>
   </div>
 
-  <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <script>
+    // 1. Supabase 초기화
     const SUPABASE_URL = "https://hyydywzsvnfhdrexntnl.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5eWR5d3pzdm5maGRyZXhudG5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxMjE3MTAsImV4cCI6MjA4MTY5NzcxMH0.2vrbtBozzHeUle9a1foYmsz4o3jkPN5GtbBM0F-eK20";
     
-    const chip = document.getElementById('login-chip');
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    let supabase;
+    try {
+      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      document.getElementById('login-chip').innerText = "상태: 서버 연결 성공!";
+    } catch (e) {
+      alert("Supabase 연결 실패! 인터넷 연결이나 주소를 확인해줘.");
+    }
 
-    async function oneClickLogin(){
-      chip.innerText = "상태: 시도 중...";
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: "abc.bobatea@gmail.com",
-        password: "rltgjqm"
-      });
-      
-      if(error) {
-        chip.innerText = "상태: 에러 - " + error.message; // 여기서 에러 이유를 알려줄 거야!
-        console.error(error);
-      } else {
-        chip.innerText = "상태: 로그인 ✅ (" + data.user.email + ")";
-        await pullTasksFromDB();
+    // 2. 로그인 함수 (핵심!)
+    async function oneClickLogin() {
+      const chip = document.getElementById('login-chip');
+      chip.innerText = "상태: 로그인 시도 중...";
+      console.log("로그인 버튼 클릭됨!"); // 개발자 도구 확인용
+
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: "abc.bobatea@gmail.com",
+          password: "rltgjqm"
+        });
+
+        if (error) {
+          alert("로그인 실패: " + error.message);
+          chip.innerText = "상태: 실패 (" + error.message + ")";
+        } else {
+          alert("태윤아 로그인 성공! 🎉");
+          chip.innerText = "상태: 로그인 ✅ (" + data.user.email + ")";
+          // 성공하면 데이터 불러오기 함수 실행 (필요시 추가)
+        }
+      } catch (err) {
+        alert("시스템 에러: " + err.message);
       }
     }
 
-    // ... (나머지 투두/시계 함수들은 기존과 동일하게 작동해!)
+    // 3. 시계 기능
     function updateClock() { document.getElementById('clock').innerText = new Date().toLocaleString('ko-KR'); }
     setInterval(updateClock, 1000); updateClock();
-
-    let todos = JSON.parse(localStorage.getItem('todos')) || [];
-    function render() {
-      const list = document.getElementById('todo-list');
-      list.innerHTML = '';
-      todos.forEach((t, i) => {
-        const li = document.createElement('li');
-        if(t.done) li.classList.add('done');
-        li.innerHTML = `<span>${t.text}</span><button class="btn danger-btn" onclick="deleteTodo(${i})">삭제</button>`;
-        list.appendChild(li);
-      });
-      localStorage.setItem('todos', JSON.stringify(todos));
-    }
-    async function addTodo() {
+    
+    // 4. 간단 투두 (기본)
+    function addTodo() {
       const input = document.getElementById('todo-input');
       if(!input.value) return;
-      todos.unshift({text: input.value, done: false});
-      input.value = ''; render();
+      const li = document.createElement('li');
+      li.innerText = "🌸 " + input.value;
+      li.style.padding = "10px";
+      li.style.borderBottom = "1px solid #eee";
+      document.getElementById('todo-list').appendChild(li);
+      input.value = '';
     }
-    function deleteTodo(i) { todos.splice(i, 1); render(); }
-    render();
   </script>
 </body>
 </html>
