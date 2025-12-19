@@ -13,1092 +13,303 @@
       font-display: swap;
     }
 
-    :root{
-      --main-pink:#ffafcc;
-      --sub-pink:#ffc8dd;
-      --bg:#fdf0f5;
-      --text:#555;
-      --card:#ffffff;
-      --muted:#888;
-      --shadow: rgba(255,175,204,0.18);
-    }
-    [data-theme="night"]{
-      --bg:#17141a;
-      --text:#e9e4ea;
-      --card:#241f27;
-      --muted:#b9b0bb;
-      --shadow: rgba(0,0,0,0.35);
-      --sub-pink:#5a3b4a;
+    :root { 
+      --main-pink: #ffafcc; 
+      --sub-pink: #ffc8dd; 
+      --bg-color: #fdf0f5; 
+      --text-color: #555; 
     }
 
-    body{
-      background: var(--bg);
-      font-family:'Mabiyet', sans-serif;
-      margin:0;
-      color: var(--text);
-      display:flex;
-      justify-content:center;
-      padding:18px;
-    }
-    .container{ width:100%; max-width:720px; }
-    .card{
-      background: var(--card);
-      border-radius: 22px;
-      box-shadow: 0 10px 22px var(--shadow);
-      padding: 16px;
-      margin-bottom: 14px;
-      border: 1px solid rgba(255,200,221,0.35);
+    body { 
+      background-color: var(--bg-color);
+      font-family: 'Mabiyet', sans-serif; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      padding: 20px; 
+      color: var(--text-color); 
+      margin: 0; 
     }
 
-    h1{ margin:6px 0 0; color:#ff8fab; text-align:center; font-size:1.9em; }
-    h2{
-      margin:0 0 10px;
-      color:#ff8fab;
-      font-size:1.25em;
-      border-bottom:2px solid var(--sub-pink);
-      padding-bottom:6px;
-    }
+    .container { width: 100%; max-width: 520px; }
+    .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 10px 20px rgba(255,175,204,0.2); margin-bottom: 20px; border: 2px solid #fff; }
+    .btn { padding: 8px 15px; border-radius: 15px; border: none; color: white; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; transition: 0.2s; display: inline-block; margin: 2px; font-family: 'Mabiyet'; }
+    .btn:hover { transform: translateY(-1px); }
+    .ai-btn { background: var(--main-pink); }
+    .stock-btn { background: #cdb4db; }
+    .danger-btn { background: #ff5d73; }
 
-    .top-links{ display:flex; flex-wrap:wrap; gap:6px; justify-content:center; }
-    .btn{
-      padding:8px 12px;
-      border-radius: 14px;
-      border:none;
-      cursor:pointer;
-      font-weight:bold;
-      font-family:'Mabiyet';
-      font-size:14px;
-      color:white;
-      text-decoration:none;
-      transition:0.15s;
-      display:inline-flex;
-      gap:6px;
-      align-items:center;
-      justify-content:center;
-      user-select:none;
-    }
-    .btn:hover{ transform: translateY(-1px); }
-    .ai-btn{ background: var(--main-pink); }
-    .stock-btn{ background: #cdb4db; }
-    .ghost{ background: transparent; border:1px solid var(--sub-pink); color: var(--text); }
-    .danger{ background:#ff5d73; }
-    .ok{ background:#7ccf93; }
-    .small{ font-size:13px; padding:6px 10px; border-radius:12px; }
+    h1 { color: #ff8fab; margin: 10px 0; font-size: 1.8em; text-align: center; }
+    h2 { font-size: 1.3em; color: #ff8fab; border-bottom: 2px solid var(--sub-pink); padding-bottom: 5px; margin-top: 0; }
 
-    #clock{ color:#ff8fab; font-weight:bold; margin:8px 0 0; text-align:center; }
+    #clock { color: #ff8fab; font-weight: bold; font-size: 1.1em; text-align:center; }
+    .hint { font-size: 0.85em; color: #888; margin-top: 6px; }
 
-    /* Tabs */
-    .tabs{
-      display:flex;
-      gap:6px;
-      flex-wrap:wrap;
-      justify-content:center;
-      margin-top:10px;
-    }
-    .tab{
-      background: rgba(255,200,221,0.22);
-      color: var(--text);
-      border:1px solid rgba(255,200,221,0.4);
-    }
-    .tab.active{
-      background: var(--main-pink);
-      color: white;
-      border-color: transparent;
-    }
+    input, textarea { width: 100%; padding: 12px; border: 1px solid var(--sub-pink); border-radius: 12px; outline: none; box-sizing: border-box; font-family: 'Mabiyet'; font-size: 16px; }
+    textarea { min-height: 120px; resize: vertical; }
 
-    /* Inputs */
-    input, textarea, select{
-      width:100%;
-      padding:12px;
-      border:1px solid var(--sub-pink);
-      border-radius: 12px;
-      outline:none;
-      box-sizing:border-box;
-      font-family:'Mabiyet';
-      font-size:16px;
-      background: transparent;
-      color: var(--text);
-    }
-    textarea{ min-height: 120px; resize: vertical; }
+    ul { list-style: none; padding: 0; margin: 0; }
+    li { background: #fff5f8; padding: 12px; margin: 8px 0; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ffeef2; }
+    .done { text-decoration: line-through; opacity: 0.55; }
 
-    .row{ display:flex; gap:8px; align-items:center; }
-    .col{ flex:1; }
+    .row { display:flex; gap:6px; align-items:center; }
+    .row .grow { flex:1; }
 
-    /* Lists */
-    ul{ list-style:none; padding:0; margin:0; }
-    li.item{
-      background: rgba(255,245,248,0.7);
-      border:1px solid rgba(255,200,221,0.35);
-      padding:12px;
-      border-radius: 14px;
-      margin:8px 0;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-    }
-    .left{ display:flex; flex-direction:column; gap:4px; }
-    .meta{ font-size:13px; color: var(--muted); display:flex; gap:8px; flex-wrap:wrap; }
-    .badge{
-      display:inline-block;
-      padding:3px 8px;
-      border-radius: 999px;
-      font-size: 12px;
-      border:1px solid rgba(255,200,221,0.7);
-      background: rgba(255,200,221,0.18);
-    }
-    .done .title{ text-decoration: line-through; opacity:0.55; }
-    .actions{ display:flex; gap:6px; }
-    .title{ font-weight:bold; }
-
-    .split{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:12px;
-    }
-    @media (min-width: 720px){
-      .split{ grid-template-columns: 1fr 1fr; }
-    }
-
-    .hint{ font-size:13px; color: var(--muted); margin-top:8px; }
-    .quote{ font-size:0.85em; color: var(--muted); text-align:center; margin:8px 0 0; }
-    .hr{
-      border-top:1px dashed var(--sub-pink);
-      margin:12px 0;
-      opacity:0.8;
-    }
+    .chip { font-size:12px; padding:3px 8px; border-radius:999px; background:#ffe5ee; border:1px solid #ffd0df; color:#a35a72; }
   </style>
 </head>
-<body data-theme="day">
+<body>
   <div class="container">
 
     <!-- Header -->
-    <div class="card">
-      <div class="top-links">
-        <a class="btn ai-btn" href="https://chatgpt.com" target="_blank">GPT</a>
-        <a class="btn ai-btn" href="https://gemini.google.com" target="_blank">Gemini</a>
-        <a class="btn ai-btn" href="https://grok.com" target="_blank">Grok</a>
-        <a class="btn stock-btn" href="https://finance.naver.com/item/main.naver?code=005930" target="_blank">삼성전자 📈</a>
-        <a class="btn stock-btn" href="https://finance.naver.com/sise/sise_index.naver?code=KOSPI" target="_blank">KOSPI 📊</a>
+    <div class="card" style="text-align:center;">
+      <div style="margin-bottom: 12px;">
+        <a href="https://chatgpt.com" target="_blank" class="btn ai-btn">GPT</a>
+        <a href="https://gemini.google.com" target="_blank" class="btn ai-btn">Gemini</a>
+        <a href="https://grok.com" target="_blank" class="btn ai-btn">Grok</a>
       </div>
-
-      <div class="hr"></div>
+      <div style="border-top: 1px dashed var(--sub-pink); padding-top: 10px; margin-bottom: 10px;">
+        <a href="https://finance.naver.com/item/main.naver?code=005930" target="_blank" class="btn stock-btn">삼성전자 📈</a>
+        <a href="https://finance.naver.com/sise/sise_index.naver?code=KOSPI" target="_blank" class="btn stock-btn">KOSPI 📊</a>
+      </div>
       <h1>🧋 bobalog 본부</h1>
       <p id="clock"></p>
-      <p class="quote">"시작은 그 일의 가장 중요한 부분이다." - 플라톤</p>
+      <p style="font-size: 0.8em; color: #888;">"시작은 그 일의 가장 중요한 부분이다." - 플라톤</p>
+    </div>
 
-      <div class="tabs" id="tabs">
-        <button class="btn tab active" data-view="dashboard">Dashboard</button>
-        <button class="btn tab" data-view="tasks">Tasks</button>
-        <button class="btn tab" data-view="calendar">Calendar</button>
-        <button class="btn tab" data-view="notes">Notes</button>
-        <button class="btn tab" data-view="settings">Settings</button>
+    <!-- Auth -->
+    <div class="card">
+      <h2>🔐 로그인 (Supabase)</h2>
+      <div class="row" style="margin-bottom:8px;">
+        <input id="email" class="grow" type="email" placeholder="email" />
+        <input id="pw" class="grow" type="password" placeholder="password" />
+      </div>
+      <div class="row">
+        <button class="btn ai-btn" onclick="signUp()">회원가입</button>
+        <button class="btn stock-btn" onclick="signIn()">로그인</button>
+        <button class="btn danger-btn" onclick="signOut()">로그아웃</button>
+      </div>
+      <div class="hint">
+        <span class="chip" id="login-chip">로그인 상태: 확인 중…</span>
       </div>
     </div>
 
-    <!-- Dashboard -->
-    <div class="card view" id="view-dashboard">
-      <h2>🏠 Dashboard</h2>
-      <div class="split">
-        <div>
-          <h3 style="margin:0 0 8px; color:#ff8fab;">✅ 오늘 할 일</h3>
-          <div class="row" style="margin-bottom:8px;">
-            <div class="col"><input id="dashTaskText" placeholder="예: 과제 1p 작성" /></div>
-            <div style="width:120px;">
-              <select id="dashTaskPrio">
-                <option value="high">우선순위: 높음</option>
-                <option value="mid" selected>우선순위: 중간</option>
-                <option value="low">우선순위: 낮음</option>
-              </select>
-            </div>
-            <button class="btn ai-btn" id="dashAddTask" style="min-width:84px;">추가</button>
-          </div>
-          <ul id="dashTasks"></ul>
-          <div class="hint">👉 체크/삭제는 버튼으로! (클릭 꼬임 방지)</div>
-        </div>
-
-        <div>
-          <h3 style="margin:0 0 8px; color:#ff8fab;">📅 오늘 일정</h3>
-          <div class="row" style="margin-bottom:8px;">
-            <div class="col"><input id="dashEventTitle" placeholder="예: 기말 과제 제출" /></div>
-            <div style="width:140px;">
-              <select id="dashEventType">
-                <option value="deadline">제출</option>
-                <option value="exam">시험</option>
-                <option value="meeting">회의</option>
-              </select>
-            </div>
-            <button class="btn stock-btn" id="dashAddEvent" style="min-width:84px;">추가</button>
-          </div>
-          <ul id="dashEvents"></ul>
-
-          <h3 style="margin:14px 0 8px; color:#ff8fab;">🔁 오늘 루틴</h3>
-          <ul id="dashRoutines"></ul>
-          <div class="row" style="margin-top:8px;">
-            <input id="dashRoutineName" placeholder="예: 일본어 20분" />
-            <button class="btn ok" id="dashAddRoutine" style="min-width:84px;">추가</button>
-          </div>
-        </div>
+    <!-- ToDo -->
+    <div class="card">
+      <h2>✅ To-Do (로컬 + DB 자동저장)</h2>
+      <div class="row" style="margin-bottom:10px;">
+        <input type="text" id="todo-input" class="grow" placeholder="뭐 할까?" />
+        <button onclick="addTodo()" class="btn ai-btn" style="min-width: 70px;">추가</button>
       </div>
+      <ul id="todo-list"></ul>
+      <p class="hint">✔️ 로그인하면 DB에 자동 저장 / 로그아웃 상태면 로컬 저장만 돼!</p>
     </div>
 
-    <!-- Tasks -->
-    <div class="card view" id="view-tasks" style="display:none;">
-      <h2>🗂️ Tasks</h2>
-
-      <div class="split">
-        <div>
-          <div class="row" style="margin-bottom:8px;">
-            <div class="col"><input id="taskText" placeholder="할 일 내용" /></div>
-            <div style="width:140px;">
-              <select id="taskProject">
-                <option value="공부" selected>프로젝트: 공부</option>
-                <option value="학생회">프로젝트: 학생회</option>
-                <option value="편집">프로젝트: 편집</option>
-                <option value="언어">프로젝트: 언어</option>
-                <option value="기타">프로젝트: 기타</option>
-              </select>
-            </div>
-          </div>
-          <div class="row" style="margin-bottom:8px;">
-            <div class="col">
-              <input id="taskDue" type="date" />
-            </div>
-            <div style="width:180px;">
-              <select id="taskPriority">
-                <option value="high">우선순위: 높음</option>
-                <option value="mid" selected>우선순위: 중간</option>
-                <option value="low">우선순위: 낮음</option>
-              </select>
-            </div>
-            <button class="btn ai-btn" id="addTask" style="min-width:84px;">저장</button>
-          </div>
-
-          <div class="hint">📌 팁: 날짜를 넣으면 “오늘/이번주” 필터가 살아나!</div>
-        </div>
-
-        <div>
-          <div class="row" style="margin-bottom:8px;">
-            <select id="filterRange">
-              <option value="all" selected>기간: 전체</option>
-              <option value="today">기간: 오늘</option>
-              <option value="week">기간: 이번주</option>
-            </select>
-            <select id="filterProject">
-              <option value="all" selected>프로젝트: 전체</option>
-              <option value="공부">공부</option>
-              <option value="학생회">학생회</option>
-              <option value="편집">편집</option>
-              <option value="언어">언어</option>
-              <option value="기타">기타</option>
-            </select>
-          </div>
-          <div class="row" style="margin-bottom:8px;">
-            <select id="filterPriority">
-              <option value="all" selected>우선순위: 전체</option>
-              <option value="high">높음</option>
-              <option value="mid">중간</option>
-              <option value="low">낮음</option>
-            </select>
-            <select id="filterStatus">
-              <option value="all" selected>상태: 전체</option>
-              <option value="open">미완료</option>
-              <option value="done">완료</option>
-            </select>
-          </div>
-          <button class="btn ghost" id="resetFilters">필터 초기화</button>
-        </div>
-      </div>
-
-      <ul id="taskList"></ul>
-    </div>
-
-    <!-- Calendar -->
-    <div class="card view" id="view-calendar" style="display:none;">
-      <h2>📅 Calendar</h2>
-
-      <div class="split">
-        <div>
-          <div class="row" style="margin-bottom:8px;">
-            <input id="eventTitle" placeholder="예: 범죄예방실무 기말" />
-          </div>
-          <div class="row" style="margin-bottom:8px;">
-            <input id="eventDate" type="date" />
-            <select id="eventType">
-              <option value="deadline" selected>제출</option>
-              <option value="exam">시험</option>
-              <option value="meeting">회의</option>
-            </select>
-          </div>
-          <textarea id="eventMemo" placeholder="메모(장소/준비물/링크 등)"></textarea>
-          <button class="btn stock-btn" id="addEvent" style="width:100%; margin-top:8px;">일정 저장</button>
-        </div>
-
-        <div>
-          <div class="row" style="margin-bottom:8px;">
-            <select id="eventFilterType">
-              <option value="all" selected>종류: 전체</option>
-              <option value="deadline">제출</option>
-              <option value="exam">시험</option>
-              <option value="meeting">회의</option>
-            </select>
-            <select id="eventFilterRange">
-              <option value="upcoming" selected>기간: 다가오는 일정</option>
-              <option value="all">기간: 전체</option>
-            </select>
-          </div>
-          <ul id="eventList"></ul>
-          <div class="hint">⏰ “다가오는 일정”은 오늘 기준 미래 날짜만 보여줘!</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Notes -->
-    <div class="card view" id="view-notes" style="display:none;">
-      <h2>📝 Notes (전교1등 노트 템플릿)</h2>
-
-      <div class="split">
-        <div>
-          <div class="row" style="margin-bottom:8px;">
-            <input id="noteTitle" placeholder="제목 (예: 정보보호개론 12주차 정리)" />
-          </div>
-          <div class="row" style="margin-bottom:8px;">
-            <select id="noteTemplate">
-              <option value="basic" selected>템플릿: 기본 인덱스</option>
-              <option value="exam">템플릿: 시험 대비</option>
-              <option value="language">템플릿: 언어 학습</option>
-              <option value="meeting">템플릿: 회의록</option>
-            </select>
-            <button class="btn ghost" id="applyTemplate" style="min-width:120px;">템플릿 적용</button>
-          </div>
-          <textarea id="noteBody" placeholder="내용"></textarea>
-          <button class="btn ai-btn" id="saveNote" style="width:100%; margin-top:8px;">게시글로 저장</button>
-          <div class="hint">✅ 이제 메모가 “한 개 덮어쓰기”가 아니라 “글 목록”으로 쌓여!</div>
-        </div>
-
-        <div>
-          <div class="row" style="margin-bottom:8px;">
-            <input id="noteSearch" placeholder="검색 (제목/내용)" />
-            <button class="btn ghost" id="clearNoteEditor" style="min-width:120px;">새 글</button>
-          </div>
-          <ul id="noteList"></ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- Settings -->
-    <div class="card view" id="view-settings" style="display:none;">
-      <h2>⚙️ Settings</h2>
-
-      <div class="split">
-        <div>
-          <h3 style="margin:0 0 8px; color:#ff8fab;">🎯 목표</h3>
-          <input id="goalText" placeholder="예: 이번 주 강의편집 6개 완료" />
-          <button class="btn ok" id="saveGoal" style="width:100%; margin-top:8px;">목표 저장</button>
-          <p class="hint" id="goalPreview"></p>
-
-          <h3 style="margin:14px 0 8px; color:#ff8fab;">🎨 테마</h3>
-          <div class="row">
-            <button class="btn tab active" id="themeDay">Day</button>
-            <button class="btn tab" id="themeNight">Night</button>
-          </div>
-        </div>
-
-        <div>
-          <h3 style="margin:0 0 8px; color:#ff8fab;">💾 데이터 백업</h3>
-          <button class="btn ghost" id="exportData" style="width:100%;">내보내기(JSON 복사)</button>
-          <textarea id="importBox" placeholder="여기에 JSON 붙여넣고 '가져오기' 누르기"></textarea>
-          <div class="row" style="margin-top:8px;">
-            <button class="btn ai-btn" id="importData" style="flex:1;">가져오기</button>
-            <button class="btn danger" id="wipeAll" style="flex:1;">초기화</button>
-          </div>
-          <div class="hint">📌 백업은 “브라우저 저장”이라 혹시 몰라서 꼭 필요해!</div>
-        </div>
-      </div>
+    <!-- Diary (로컬) -->
+    <div class="card">
+      <h2>📝 오늘의 기록 (로컬)</h2>
+      <textarea id="diary-text" placeholder="오늘 하루는 어땠어?"></textarea>
+      <button onclick="saveDiary()" class="btn ai-btn" style="width:100%; padding:12px; border-radius:12px; font-size:16px; margin-top:10px;">저장하기 🎀</button>
     </div>
 
   </div>
 
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
-    /* ---------------------------
-      Storage Keys + App State
-    --------------------------- */
-    const KEY = {
-      tasks: 'bobalog_tasks_v1',
-      events: 'bobalog_events_v1',
-      routines: 'bobalog_routines_v1',
-      notes: 'bobalog_notes_v1',
-      goal: 'bobalog_goal_v1',
-      theme: 'bobalog_theme_v1'
-    };
-
-    const state = {
-      tasks: load(KEY.tasks, []),
-      events: load(KEY.events, []),
-      routines: load(KEY.routines, [
-        { id: uid(), name:'물 마시기', doneDates: [] },
-        { id: uid(), name:'일본어 20분', doneDates: [] },
-      ]),
-      notes: load(KEY.notes, []),
-      goal: load(KEY.goal, ''),
-      theme: load(KEY.theme, 'day'),
-      editingNoteId: null
-    };
-
-    function load(key, fallback){
-      try{
-        const v = JSON.parse(localStorage.getItem(key));
-        return (v === null || v === undefined) ? fallback : v;
-      }catch(e){
-        return fallback;
-      }
-    }
-    function save(key, value){
-      localStorage.setItem(key, JSON.stringify(value));
-    }
-    function uid(){ return Math.random().toString(36).slice(2) + Date.now().toString(36); }
-    function todayISO(){
-      const d = new Date();
-      const yyyy = d.getFullYear();
-      const mm = String(d.getMonth()+1).padStart(2,'0');
-      const dd = String(d.getDate()).padStart(2,'0');
-      return `${yyyy}-${mm}-${dd}`;
-    }
-    function startOfWeekISO(){
-      const d = new Date();
-      const day = d.getDay(); // 0 Sun
-      const diff = (day === 0 ? -6 : 1 - day); // Mon as start
-      d.setDate(d.getDate() + diff);
-      const yyyy = d.getFullYear();
-      const mm = String(d.getMonth()+1).padStart(2,'0');
-      const dd = String(d.getDate()).padStart(2,'0');
-      return `${yyyy}-${mm}-${dd}`;
-    }
-    function endOfWeekISO(){
-      const d = new Date(startOfWeekISO());
-      d.setDate(d.getDate() + 6);
-      const yyyy = d.getFullYear();
-      const mm = String(d.getMonth()+1).padStart(2,'0');
-      const dd = String(d.getDate()).padStart(2,'0');
-      return `${yyyy}-${mm}-${dd}`;
-    }
-    function isBetween(dateISO, aISO, bISO){
-      if(!dateISO) return false;
-      return dateISO >= aISO && dateISO <= bISO;
-    }
-    function fmtType(type){
-      return type === 'deadline' ? '제출' : type === 'exam' ? '시험' : '회의';
-    }
-    function fmtPrio(p){
-      return p === 'high' ? '높음' : p === 'mid' ? '중간' : '낮음';
-    }
-
-    /* ---------------------------
-      Clock
-    --------------------------- */
-    function updateClock(){
+    /* -----------------------
+      0) Clock
+    ------------------------ */
+    function updateClock() {
       const now = new Date();
       document.getElementById('clock').innerText = now.toLocaleString('ko-KR');
     }
     setInterval(updateClock, 1000);
     updateClock();
 
-    /* ---------------------------
-      Tabs / Views
-    --------------------------- */
-    const tabs = document.getElementById('tabs');
-    tabs.addEventListener('click', (e)=>{
-      const btn = e.target.closest('button[data-view]');
-      if(!btn) return;
-      const view = btn.dataset.view;
+    /* -----------------------
+      1) Supabase 연결 (태윤 값 확정)
+    ------------------------ */
+    const SUPABASE_URL = "https://hyydywzsvnfhdrexntnl.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5eWR5d3pzdm5maGRyZXhudG5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxMjE3MTAsImV4cCI6MjA4MTY5NzcxMH0.2vrbtBozzHeUle9a1foYmsz4o3jkPN5GtbBM0F-eK20";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-      btn.classList.add('active');
+    /* -----------------------
+      2) Auth (회원가입/로그인/로그아웃)
+    ------------------------ */
+    async function signUp(){
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('pw').value.trim();
+      const { error } = await supabase.auth.signUp({ email, password });
+      alert(error ? ("회원가입 실패: " + error.message) : "회원가입 완료! 이제 로그인 🎀");
+      await refreshAuthChip();
+    }
 
-      document.querySelectorAll('.view').forEach(v=>v.style.display='none');
-      document.getElementById(`view-${view}`).style.display='block';
+    async function signIn(){
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('pw').value.trim();
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      alert(error ? ("로그인 실패: " + error.message) : ("로그인 성공! 🧋 " + data.user.email));
+      await refreshAuthChip();
+      await pullTasksFromDB(); // 로그인 후 DB -> 화면 동기화
+    }
 
-      renderAll();
-    });
+    async function signOut(){
+      await supabase.auth.signOut();
+      alert("로그아웃 완료!");
+      await refreshAuthChip();
+      render(); // 로컬 상태는 그대로 보여줌
+    }
 
-    /* ---------------------------
-      Dashboard - Quick add
-    --------------------------- */
-    document.getElementById('dashAddTask').onclick = ()=>{
-      const text = document.getElementById('dashTaskText').value.trim();
-      const prio = document.getElementById('dashTaskPrio').value;
+    async function refreshAuthChip(){
+      const { data } = await supabase.auth.getSession();
+      const user = data?.session?.user;
+      const chip = document.getElementById('login-chip');
+      chip.innerText = user ? ("로그인: " + user.email) : "로그아웃 상태";
+    }
+
+    /* -----------------------
+      3) ToDo (로컬 + DB 자동저장)
+    ------------------------ */
+    let todos = JSON.parse(localStorage.getItem('todos')) || [];
+
+    function render() {
+      const list = document.getElementById('todo-list');
+      list.innerHTML = '';
+
+      todos.forEach((t, i) => {
+        const li = document.createElement('li');
+        if(t.done) li.classList.add('done');
+
+        const left = document.createElement('span');
+        left.innerText = t.text;
+
+        const right = document.createElement('div');
+        right.className = 'row';
+
+        const doneBtn = document.createElement('button');
+        doneBtn.className = 'btn stock-btn';
+        doneBtn.style.padding = '6px 10px';
+        doneBtn.style.borderRadius = '12px';
+        doneBtn.innerText = t.done ? '되돌리기' : '완료';
+        doneBtn.onclick = (e) => { e.stopPropagation(); toggleTodo(i); };
+
+        const delBtn = document.createElement('button');
+        delBtn.className = 'btn danger-btn';
+        delBtn.style.padding = '6px 10px';
+        delBtn.style.borderRadius = '12px';
+        delBtn.innerText = '삭제';
+        delBtn.onclick = (e) => { e.stopPropagation(); deleteTodo(i); };
+
+        right.appendChild(doneBtn);
+        right.appendChild(delBtn);
+
+        li.appendChild(left);
+        li.appendChild(right);
+        list.appendChild(li);
+      });
+
+      localStorage.setItem('todos', JSON.stringify(todos));
+    }
+
+    async function pullTasksFromDB(){
+      const { data: sessionData } = await supabase.auth.getSession();
+      const user = sessionData?.session?.user;
+      if(!user) return;
+
+      const { data, error } = await supabase
+        .from('tasks')
+        .select('id, text, done')
+        .order('created_at', { ascending: false });
+
+      if(error){
+        console.log("DB 불러오기 실패:", error.message);
+        return;
+      }
+
+      // DB가 있으면 DB가 우선 (동기화)
+      todos = (data || []).map(row => ({ id: row.id, text: row.text, done: row.done }));
+      render();
+    }
+
+    async function addTodo() {
+      const input = document.getElementById('todo-input');
+      const text = input.value.trim();
       if(!text) return;
-      state.tasks.unshift({
-        id: uid(),
-        text, project:'공부',
-        due: todayISO(),
-        priority: prio,
-        done:false,
-        createdAt: Date.now()
-      });
-      document.getElementById('dashTaskText').value = '';
-      save(KEY.tasks, state.tasks);
-      renderAll();
-    };
 
-    document.getElementById('dashAddEvent').onclick = ()=>{
-      const title = document.getElementById('dashEventTitle').value.trim();
-      const type = document.getElementById('dashEventType').value;
-      if(!title) return;
-      state.events.unshift({
-        id: uid(),
-        title, type,
-        date: todayISO(),
-        memo:'',
-        createdAt: Date.now()
-      });
-      document.getElementById('dashEventTitle').value = '';
-      save(KEY.events, state.events);
-      renderAll();
-    };
+      // 1) 화면 즉시 반영(로컬)
+      const temp = { id: "local_" + Date.now(), text, done: false };
+      todos.unshift(temp);
+      input.value = '';
+      render();
 
-    document.getElementById('dashAddRoutine').onclick = ()=>{
-      const name = document.getElementById('dashRoutineName').value.trim();
-      if(!name) return;
-      state.routines.unshift({ id: uid(), name, doneDates: [] });
-      document.getElementById('dashRoutineName').value = '';
-      save(KEY.routines, state.routines);
-      renderAll();
-    };
+      // 2) 로그인 상태면 DB 자동 저장
+      const { data: sessionData } = await supabase.auth.getSession();
+      const user = sessionData?.session?.user;
+      if(!user) return;
 
-    /* ---------------------------
-      Tasks - Add + Filters
-    --------------------------- */
-    document.getElementById('addTask').onclick = ()=>{
-      const text = document.getElementById('taskText').value.trim();
-      const project = document.getElementById('taskProject').value;
-      const due = document.getElementById('taskDue').value || '';
-      const priority = document.getElementById('taskPriority').value;
-      if(!text) return;
+      const { data, error } = await supabase
+        .from('tasks')
+        .insert([{ user_id: user.id, text, done: false }])
+        .select()
+        .single();
 
-      state.tasks.unshift({ id: uid(), text, project, due, priority, done:false, createdAt: Date.now() });
-      document.getElementById('taskText').value = '';
-      save(KEY.tasks, state.tasks);
-      renderTasks();
-      renderDashboard();
-    };
-
-    ['filterRange','filterProject','filterPriority','filterStatus'].forEach(id=>{
-      document.getElementById(id).onchange = renderTasks;
-    });
-
-    document.getElementById('resetFilters').onclick = ()=>{
-      document.getElementById('filterRange').value = 'all';
-      document.getElementById('filterProject').value = 'all';
-      document.getElementById('filterPriority').value = 'all';
-      document.getElementById('filterStatus').value = 'all';
-      renderTasks();
-    };
-
-    function filteredTasks(){
-      const range = document.getElementById('filterRange').value;
-      const project = document.getElementById('filterProject').value;
-      const prio = document.getElementById('filterPriority').value;
-      const status = document.getElementById('filterStatus').value;
-
-      const t = todayISO();
-      const a = startOfWeekISO();
-      const b = endOfWeekISO();
-
-      return state.tasks.filter(x=>{
-        if(project !== 'all' && x.project !== project) return false;
-        if(prio !== 'all' && x.priority !== prio) return false;
-        if(status !== 'all'){
-          if(status === 'open' && x.done) return false;
-          if(status === 'done' && !x.done) return false;
-        }
-        if(range === 'today'){
-          return x.due === t;
-        }
-        if(range === 'week'){
-          return isBetween(x.due, a, b);
-        }
-        return true;
-      });
-    }
-
-    /* ---------------------------
-      Calendar - Add + Filters
-    --------------------------- */
-    document.getElementById('addEvent').onclick = ()=>{
-      const title = document.getElementById('eventTitle').value.trim();
-      const date = document.getElementById('eventDate').value;
-      const type = document.getElementById('eventType').value;
-      const memo = document.getElementById('eventMemo').value.trim();
-      if(!title || !date) return;
-
-      state.events.unshift({ id: uid(), title, date, type, memo, createdAt: Date.now() });
-      document.getElementById('eventTitle').value = '';
-      document.getElementById('eventDate').value = '';
-      document.getElementById('eventMemo').value = '';
-      save(KEY.events, state.events);
-      renderCalendar();
-      renderDashboard();
-    };
-
-    document.getElementById('eventFilterType').onchange = renderCalendar;
-    document.getElementById('eventFilterRange').onchange = renderCalendar;
-
-    function filteredEvents(){
-      const type = document.getElementById('eventFilterType').value;
-      const range = document.getElementById('eventFilterRange').value;
-      const t = todayISO();
-
-      return state.events
-        .filter(e=>{
-          if(type !== 'all' && e.type !== type) return false;
-          if(range === 'upcoming' && e.date && e.date < t) return false;
-          return true;
-        })
-        .sort((a,b)=> (a.date||'').localeCompare(b.date||''));
-    }
-
-    /* ---------------------------
-      Notes - Post style 저장
-    --------------------------- */
-    const templates = {
-      basic:
-`# 1) 핵심 키워드
-- 
-
-# 2) 개념 정리(정의)
-- 
-
-# 3) 교수님 강조 포인트
-- 
-
-# 4) 예시/케이스
-- 
-
-# 5) 한 줄 요약
-- `,
-      exam:
-`# 정답 먼저
-- 
-
-# 해설
-- 
-
-# 근거(페이지/슬라이드)
-- 
-
-# 자주 틀리는 포인트
-- `,
-      language:
-`# 단어/표현
-- 
-
-# 발음(한글/로마자)
-- 
-
-# 예문
-- 
-
-# 오늘의 암기 포인트
-- `,
-      meeting:
-`# 회의 정보
-- 일시:
-- 참석:
-- 안건:
-
-# 논의 내용(결정사항/액션아이템)
-- 
-
-# 다음 일정
-- `
-    };
-
-    document.getElementById('applyTemplate').onclick = ()=>{
-      const t = document.getElementById('noteTemplate').value;
-      document.getElementById('noteBody').value = templates[t] || '';
-    };
-
-    document.getElementById('saveNote').onclick = ()=>{
-      const title = document.getElementById('noteTitle').value.trim();
-      const body = document.getElementById('noteBody').value.trim();
-      if(!title || !body) return;
-
-      if(state.editingNoteId){
-        const n = state.notes.find(x=>x.id === state.editingNoteId);
-        if(n){
-          n.title = title;
-          n.body = body;
-          n.updatedAt = Date.now();
-        }
-      }else{
-        state.notes.unshift({ id: uid(), title, body, createdAt: Date.now(), updatedAt: null });
+      if(error){
+        console.log("DB 저장 실패:", error.message);
+        return;
       }
-      state.editingNoteId = null;
-      document.getElementById('noteTitle').value = '';
-      document.getElementById('noteBody').value = '';
-      save(KEY.notes, state.notes);
-      renderNotes();
-    };
 
-    document.getElementById('noteSearch').oninput = renderNotes;
-
-    document.getElementById('clearNoteEditor').onclick = ()=>{
-      state.editingNoteId = null;
-      document.getElementById('noteTitle').value = '';
-      document.getElementById('noteBody').value = '';
-    };
-
-    /* ---------------------------
-      Settings - Goal / Theme / Backup
-    --------------------------- */
-    document.getElementById('saveGoal').onclick = ()=>{
-      state.goal = document.getElementById('goalText').value.trim();
-      save(KEY.goal, state.goal);
-      renderSettings();
-    };
-
-    document.getElementById('themeDay').onclick = ()=> setTheme('day');
-    document.getElementById('themeNight').onclick = ()=> setTheme('night');
-
-    function setTheme(theme){
-      state.theme = theme;
-      document.body.setAttribute('data-theme', theme);
-      save(KEY.theme, theme);
-
-      document.getElementById('themeDay').classList.toggle('active', theme==='day');
-      document.getElementById('themeNight').classList.toggle('active', theme==='night');
+      // 3) 임시 id -> DB id로 교체
+      const idx = todos.findIndex(t => t.id === temp.id);
+      if(idx >= 0) todos[idx].id = data.id;
+      render();
     }
 
-    document.getElementById('exportData').onclick = async ()=>{
-      const payload = {
-        version: 1,
-        exportedAt: new Date().toISOString(),
-        data: {
-          tasks: state.tasks,
-          events: state.events,
-          routines: state.routines,
-          notes: state.notes,
-          goal: state.goal,
-          theme: state.theme
-        }
-      };
-      const json = JSON.stringify(payload, null, 2);
-      try{
-        await navigator.clipboard.writeText(json);
-        alert('백업 JSON이 클립보드에 복사됐어! 🎀');
-      }catch(e){
-        document.getElementById('importBox').value = json;
-        alert('클립보드 권한이 없어서 아래 박스에 출력했어! 🎀');
-      }
-    };
+    async function toggleTodo(i) {
+      todos[i].done = !todos[i].done;
+      render();
 
-    document.getElementById('importData').onclick = ()=>{
-      const raw = document.getElementById('importBox').value.trim();
-      if(!raw) return;
-      try{
-        const payload = JSON.parse(raw);
-        const d = payload.data || payload;
+      const id = todos[i].id;
+      if(String(id).startsWith("local_")) return;
 
-        state.tasks = d.tasks || [];
-        state.events = d.events || [];
-        state.routines = d.routines || [];
-        state.notes = d.notes || [];
-        state.goal = d.goal || '';
-        state.theme = d.theme || 'day';
+      const { data: sessionData } = await supabase.auth.getSession();
+      const user = sessionData?.session?.user;
+      if(!user) return;
 
-        save(KEY.tasks, state.tasks);
-        save(KEY.events, state.events);
-        save(KEY.routines, state.routines);
-        save(KEY.notes, state.notes);
-        save(KEY.goal, state.goal);
-        save(KEY.theme, state.theme);
-
-        setTheme(state.theme);
-        document.getElementById('importBox').value = '';
-        renderAll();
-        alert('가져오기 완료! 🧋');
-      }catch(e){
-        alert('JSON 형식이 이상해! 😵‍💫');
-      }
-    };
-
-    document.getElementById('wipeAll').onclick = ()=>{
-      if(!confirm('진짜 초기화할까? (되돌리기 어려워)')) return;
-      Object.values(KEY).forEach(k=>localStorage.removeItem(k));
-      location.reload();
-    };
-
-    /* ---------------------------
-      Render Helpers
-    --------------------------- */
-    function taskItemHTML(t){
-      return `
-        <li class="item ${t.done ? 'done':''}" data-id="${t.id}">
-          <div class="left">
-            <div class="title">${escapeHtml(t.text)}</div>
-            <div class="meta">
-              <span class="badge">프로젝트: ${escapeHtml(t.project)}</span>
-              <span class="badge">우선순위: ${fmtPrio(t.priority)}</span>
-              ${t.due ? `<span class="badge">기한: ${t.due}</span>` : `<span class="badge">기한: 없음</span>`}
-            </div>
-          </div>
-          <div class="actions">
-            <button class="btn small ok js-toggle">완료</button>
-            <button class="btn small danger js-del">삭제</button>
-          </div>
-        </li>
-      `;
+      await supabase.from('tasks').update({ done: todos[i].done }).eq('id', id);
     }
 
-    function eventItemHTML(ev){
-      const memo = ev.memo ? ` · ${escapeHtml(ev.memo)}` : '';
-      return `
-        <li class="item" data-id="${ev.id}">
-          <div class="left">
-            <div class="title">${escapeHtml(ev.title)}</div>
-            <div class="meta">
-              <span class="badge">${ev.date || ''}</span>
-              <span class="badge">${fmtType(ev.type)}</span>
-              <span class="badge">메모 ${ev.memo ? '있음' : '없음'}</span>
-            </div>
-            ${ev.memo ? `<div class="hint">${escapeHtml(ev.memo)}</div>` : ''}
-          </div>
-          <div class="actions">
-            <button class="btn small danger js-del">삭제</button>
-          </div>
-        </li>
-      `;
+    async function deleteTodo(i) {
+      const id = todos[i].id;
+      todos.splice(i, 1);
+      render();
+
+      if(String(id).startsWith("local_")) return;
+
+      const { data: sessionData } = await supabase.auth.getSession();
+      const user = sessionData?.session?.user;
+      if(!user) return;
+
+      await supabase.from('tasks').delete().eq('id', id);
     }
 
-    function routineItemHTML(r){
-      const t = todayISO();
-      const done = r.doneDates.includes(t);
-      return `
-        <li class="item ${done ? 'done':''}" data-id="${r.id}">
-          <div class="left">
-            <div class="title">${escapeHtml(r.name)}</div>
-            <div class="meta">
-              <span class="badge">오늘: ${done ? '완료' : '미완료'}</span>
-              <span class="badge">누적: ${r.doneDates.length}일</span>
-            </div>
-          </div>
-          <div class="actions">
-            <button class="btn small ok js-toggle">체크</button>
-            <button class="btn small danger js-del">삭제</button>
-          </div>
-        </li>
-      `;
+    /* -----------------------
+      4) Diary (로컬)
+    ------------------------ */
+    function saveDiary() {
+      localStorage.setItem('diary', document.getElementById('diary-text').value);
+      alert('저장 완료! 🎀');
     }
+    document.getElementById('diary-text').value = localStorage.getItem('diary') || '';
 
-    function noteItemHTML(n){
-      const created = new Date(n.createdAt).toLocaleString('ko-KR');
-      return `
-        <li class="item" data-id="${n.id}">
-          <div class="left">
-            <div class="title">${escapeHtml(n.title)}</div>
-            <div class="meta">
-              <span class="badge">작성: ${created}</span>
-              <span class="badge">${n.updatedAt ? '수정됨' : '원본'}</span>
-            </div>
-          </div>
-          <div class="actions">
-            <button class="btn small ghost js-open">열기</button>
-            <button class="btn small danger js-del">삭제</button>
-          </div>
-        </li>
-      `;
-    }
-
-    function escapeHtml(s){
-      return (s||'')
-        .replaceAll('&','&amp;')
-        .replaceAll('<','&lt;')
-        .replaceAll('>','&gt;')
-        .replaceAll('"','&quot;')
-        .replaceAll("'","&#039;");
-    }
-
-    /* ---------------------------
-      Render: Dashboard
-    --------------------------- */
-    function renderDashboard(){
-      const t = todayISO();
-
-      // Today tasks
-      const todayTasks = state.tasks.filter(x => x.due === t).slice(0, 6);
-      const dashTasks = document.getElementById('dashTasks');
-      dashTasks.innerHTML = todayTasks.length
-        ? todayTasks.map(taskItemHTML).join('')
-        : `<li class="item"><div class="left"><div class="title">오늘 할 일이 비어있어! 🎀</div><div class="hint">위에서 하나 추가해보자</div></div></li>`;
-
-      // Today events
-      const todayEvents = state.events.filter(e => e.date === t).slice(0, 6);
-      const dashEvents = document.getElementById('dashEvents');
-      dashEvents.innerHTML = todayEvents.length
-        ? todayEvents.map(eventItemHTML).join('')
-        : `<li class="item"><div class="left"><div class="title">오늘 일정 없음</div><div class="hint">제출/시험/회의를 추가해두면 마음이 편해져 😎</div></div></li>`;
-
-      // Routines
-      const dashRoutines = document.getElementById('dashRoutines');
-      dashRoutines.innerHTML = state.routines.length
-        ? state.routines.map(routineItemHTML).join('')
-        : `<li class="item"><div class="left"><div class="title">루틴이 비어있어!</div></div></li>`;
-
-      // bind actions in dashboard
-      bindListActions(dashTasks, 'task');
-      bindListActions(dashEvents, 'event');
-      bindListActions(dashRoutines, 'routine');
-    }
-
-    /* ---------------------------
-      Render: Tasks
-    --------------------------- */
-    function renderTasks(){
-      const list = document.getElementById('taskList');
-      const items = filteredTasks();
-      list.innerHTML = items.length
-        ? items.map(taskItemHTML).join('')
-        : `<li class="item"><div class="left"><div class="title">조건에 맞는 할 일이 없어 😺</div><div class="hint">필터를 풀거나 새 할 일을 추가해봐!</div></div></li>`;
-
-      bindListActions(list, 'task');
-    }
-
-    /* ---------------------------
-      Render: Calendar
-    --------------------------- */
-    function renderCalendar(){
-      const list = document.getElementById('eventList');
-      const items = filteredEvents();
-      list.innerHTML = items.length
-        ? items.map(eventItemHTML).join('')
-        : `<li class="item"><div class="left"><div class="title">일정이 비어있어!</div><div class="hint">시험/제출/회의를 먼저 박아두자 🧋</div></div></li>`;
-
-      bindListActions(list, 'event');
-    }
-
-    /* ---------------------------
-      Render: Notes
-    --------------------------- */
-    function renderNotes(){
-      const q = document.getElementById('noteSearch').value.trim().toLowerCase();
-      const list = document.getElementById('noteList');
-
-      const items = state.notes.filter(n=>{
-        if(!q) return true;
-        return (n.title||'').toLowerCase().includes(q) || (n.body||'').toLowerCase().includes(q);
-      });
-
-      list.innerHTML = items.length
-        ? items.map(noteItemHTML).join('')
-        : `<li class="item"><div class="left"><div class="title">노트가 아직 없어!</div><div class="hint">왼쪽에서 템플릿 적용하고 저장해보자 🎀</div></div></li>`;
-
-      list.onclick = (e)=>{
-        const li = e.target.closest('li.item');
-        if(!li) return;
-        const id = li.dataset.id;
-        const n = state.notes.find(x=>x.id === id);
-        if(!n) return;
-
-        if(e.target.classList.contains('js-open')){
-          state.editingNoteId = id;
-          document.getElementById('noteTitle').value = n.title;
-          document.getElementById('noteBody').value = n.body;
-          return;
-        }
-        if(e.target.classList.contains('js-del')){
-          state.notes = state.notes.filter(x=>x.id !== id);
-          save(KEY.notes, state.notes);
-          renderNotes();
-          return;
-        }
-      };
-    }
-
-    /* ---------------------------
-      Render: Settings
-    --------------------------- */
-    function renderSettings(){
-      document.getElementById('goalText').value = state.goal || '';
-      document.getElementById('goalPreview').innerText = state.goal ? `현재 목표: ${state.goal}` : '현재 목표가 비어있어!';
-      setTheme(state.theme);
-    }
-
-    /* ---------------------------
-      Bind actions for lists
-      - 여기서 “SPAN 클릭 꼬임”을 완전히 해결!
-    --------------------------- */
-    function bindListActions(container, kind){
-      container.onclick = (e)=>{
-        const li = e.target.closest('li.item');
-        if(!li) return;
-        const id = li.dataset.id;
-
-        if(kind === 'task'){
-          const t = state.tasks.find(x=>x.id === id);
-          if(!t) return;
-
-          if(e.target.classList.contains('js-toggle')){
-            t.done = !t.done;
-            save(KEY.tasks, state.tasks);
-            renderAll();
-            return;
-          }
-          if(e.target.classList.contains('js-del')){
-            state.tasks = state.tasks.filter(x=>x.id !== id);
-            save(KEY.tasks, state.tasks);
-            renderAll();
-            return;
-          }
-        }
-
-        if(kind === 'event'){
-          if(e.target.classList.contains('js-del')){
-            state.events = state.events.filter(x=>x.id !== id);
-            save(KEY.events, state.events);
-            renderAll();
-            return;
-          }
-        }
-
-        if(kind === 'routine'){
-          const r = state.routines.find(x=>x.id === id);
-          if(!r) return;
-
-          if(e.target.classList.contains('js-toggle')){
-            const t = todayISO();
-            const idx = r.doneDates.indexOf(t);
-            if(idx >= 0) r.doneDates.splice(idx,1);
-            else r.doneDates.push(t);
-
-            save(KEY.routines, state.routines);
-            renderAll();
-            return;
-          }
-          if(e.target.classList.contains('js-del')){
-            state.routines = state.routines.filter(x=>x.id !== id);
-            save(KEY.routines, state.routines);
-            renderAll();
-            return;
-          }
-        }
-      };
-    }
-
-    function renderAll(){
-      renderDashboard();
-      renderTasks();
-      renderCalendar();
-      renderNotes();
-      renderSettings();
-    }
-
-    /* ---------------------------
+    /* -----------------------
       Init
-    --------------------------- */
-    // theme init
-    document.body.setAttribute('data-theme', state.theme);
-    renderAll();
+    ------------------------ */
+    (async () => {
+      await refreshAuthChip();
+      render();
+    })();
   </script>
 </body>
 </html>
