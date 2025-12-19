@@ -2,26 +2,135 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>bobalog 생산성 본부</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bobalog 생산성 본부 🧋</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     <style>
-        :root { --main-pink: #ffafcc; --sub-pink: #ffc8dd; --bg-color: #fdf0f5; }
-        body { background-color: var(--bg-color); font-family: 'Apple SD Gothic Neo', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; color: #555; }
-        .header { width: 100%; max-width: 600px; background: white; padding: 20px; border-radius: 20px; text-align: center; box-shadow: 0 4px 15px rgba(255, 175, 204, 0.3); margin-bottom: 20px; }
-        .ai-tools { display: flex; gap: 10px; justify-content: center; margin-bottom: 15px; }
-        .ai-btn { padding: 8px 15px; border-radius: 12px; border: none; background: var(--main-pink); color: white; cursor: pointer; text-decoration: none; font-weight: bold; font-size: 14px; }
-        .ai-btn:hover { background: #ff8fab; }
-        .quote { font-style: italic; color: #888; font-size: 0.9em; margin-top: 10px; }
+        :root { --main-pink: #ffafcc; --sub-pink: #ffc8dd; --bg-color: #fdf0f5; --text-color: #555; }
+        body { background-color: var(--bg-color); font-family: 'Gowun Dodum', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; color: var(--text-color); margin: 0; overflow-x: hidden; }
+        
+        /* 뽀짝한 배경 하트 애니메이션 */
+        .floating-heart { position: fixed; color: var(--main-pink); font-size: 20px; animation: float 5s linear infinite; opacity: 0.5; z-index: -1; }
+        @keyframes float { 0% { transform: translateY(100vh) rotate(0deg); } 100% { transform: translateY(-10vh) rotate(360deg); } }
+
+        .container { width: 100%; max-width: 500px; z-index: 1; }
+        .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 10px 20px rgba(255,175,204,0.2); margin-bottom: 20px; border: 2px solid #fff; }
+        
+        /* 상단 도구 버튼 */
+        .ai-tools, .sns-links { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 15px; }
+        .btn { padding: 8px 15px; border-radius: 15px; border: none; color: white; cursor: pointer; text-decoration: none; font-size: 13px; font-weight: bold; transition: 0.3s; }
+        .ai-btn { background: var(--main-pink); }
+        .sns-btn { background: #bde0fe; } /* 하늘색 포인트 */
+        .btn:hover { transform: scale(1.05); filter: brightness(1.1); }
+
+        h1 { color: #ff8fab; margin: 10px 0; font-size: 1.8em; }
+        h2 { font-size: 1.2em; color: #ff8fab; border-bottom: 2px solid var(--sub-pink); padding-bottom: 5px; margin-top: 0; }
+        
+        /* 입력창 스타일 */
+        .input-group { display: flex; gap: 5px; margin-bottom: 10px; }
+        input[type="text"], textarea { flex: 1; padding: 10px; border: 1px solid var(--sub-pink); border-radius: 12px; outline: none; }
+        .add-btn { padding: 10px 15px; background: var(--main-pink); border: none; color: white; border-radius: 12px; cursor: pointer; font-weight: bold; }
+
+        /* 리스트 스타일 */
+        ul { list-style: none; padding: 0; }
+        li { background: #fff5f8; padding: 10px 15px; margin: 8px 0; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--main-pink); }
+        
+        /* 일지 탭 */
+        .diary-tabs { display: flex; gap: 5px; margin-bottom: 10px; }
+        .tab-btn { flex: 1; padding: 8px; font-size: 13px; border: 1px solid var(--sub-pink); background: white; border-radius: 10px; cursor: pointer; }
+        .tab-btn.active { background: var(--main-pink); color: white; }
+        textarea { width: 100%; height: 100px; box-sizing: border-box; resize: none; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="ai-tools">
-            <a href="https://chatgpt.com" target="_blank" class="ai-btn">GPT</a>
-            <a href="https://gemini.google.com" target="_blank" class="ai-btn">Gemini</a>
-            <a href="https://grok.com" target="_blank" class="ai-btn">Grok</a>
+    <div class="floating-heart" style="left: 10%; animation-delay: 0s;">💖</div>
+    <div class="floating-heart" style="left: 30%; animation-delay: 2s;">💕</div>
+    <div class="floating-heart" style="left: 70%; animation-delay: 1s;">💗</div>
+    <div class="floating-heart" style="left: 90%; animation-delay: 3s;">🧋</div>
+
+    <div class="container">
+        <div class="card" style="text-align: center;">
+            <div class="ai-tools">
+                <a href="https://chatgpt.com" target="_blank" class="btn ai-btn">GPT</a>
+                <a href="https://gemini.google.com" target="_blank" class="btn ai-btn">Gemini</a>
+                <a href="https://grok.com" target="_blank" class="btn ai-btn">Grok</a>
+            </div>
+            <h1>🧋 bobalog</h1>
+            <p id="today-date" style="font-weight: bold; color: #ff8fab; font-size: 1.1em;"></p>
+            <p style="font-size: 0.9em; color: #aaa;">"시작은 그 일의 가장 중요한 부분이다."</p>
         </div>
-        <h1>🧋 bobalog 🧋</h1>
-        <p class="quote">"시작은 그 일의 가장 중요한 부분이다." - 플라톤</p>
+
+        <div class="card" style="text-align: center;">
+            <h2>🔗 My Links</h2>
+            <div class="sns-links">
+                <a href="https://blog.naver.com" target="_blank" class="btn sns-btn">Blog</a>
+                <a href="https://notion.so" target="_blank" class="btn sns-btn">Notion</a>
+                <a href="https://instagram.com" target="_blank" class="btn sns-btn">Instagram</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>✅ To-Do List</h2>
+            <div class="input-group">
+                <input type="text" id="todo-input" placeholder="할 일을 입력해봐!">
+                <button class="add-btn" onclick="addTodo()">추가</button>
+            </div>
+            <ul id="todo-list"></ul>
+        </div>
+
+        <div class="card">
+            <h2>📝 카테고리 일지</h2>
+            <div class="diary-tabs">
+                <button class="tab-btn active" id="tab-diary" onclick="switchTab('diary')">일기</button>
+                <button class="tab-btn" id="tab-gym" onclick="switchTab('gym')">운동</button>
+                <button class="tab-btn" id="tab-mood" onclick="switchTab('mood')">감정</button>
+            </div>
+            <textarea id="diary-text" placeholder="오늘의 일기를 써봐!"></textarea>
+            <button class="add-btn" style="width: 100%; margin-top: 10px;" onclick="saveDiary()">저장하기</button>
+        </div>
     </div>
-    </body>
+
+    <script>
+        // 1. 날짜 표시
+        const dateEl = document.getElementById('today-date');
+        dateEl.innerText = new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
+
+        // 2. 투두리스트 저장/불러오기
+        let todos = JSON.parse(localStorage.getItem('bobalog-todos')) || [];
+        function renderTodos() {
+            const list = document.getElementById('todo-list');
+            list.innerHTML = '';
+            todos.forEach((todo, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `${todo} <span style="cursor:pointer" onclick="deleteTodo(${index})">❌</span>`;
+                list.appendChild(li);
+            });
+            localStorage.setItem('bobalog-todos', JSON.stringify(todos));
+        }
+        function addTodo() {
+            const input = document.getElementById('todo-input');
+            if (input.value) { todos.push(input.value); input.value = ''; renderTodos(); }
+        }
+        function deleteTodo(index) { todos.splice(index, 1); renderTodos(); }
+
+        // 3. 일기 탭 및 저장 기능
+        let currentTab = 'diary';
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            document.getElementById('diary-text').value = localStorage.getItem('bobalog-' + tab) || '';
+            document.getElementById('diary-text').placeholder = `${tab === 'diary' ? '일기' : tab === 'gym' ? '운동' : '감정'} 기록을 써봐!`;
+        }
+        function saveDiary() {
+            const text = document.getElementById('diary-text').value;
+            localStorage.setItem('bobalog-' + currentTab, text);
+            alert('태윤아, 저장 완료! 🎀');
+        }
+
+        // 초기 실행
+        renderTodos();
+        switchTab('diary');
+    </script>
+</body>
 </html>
