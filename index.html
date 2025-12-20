@@ -3,178 +3,158 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>bobalog 초강력 버전 🧋</title>
-
+  <title>bobalog 생산성 본부 🧋</title>
   <style>
-    @font-face {
-      font-family: 'Mabiyet';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2207-01@1.0/MabinogiClassicR.woff2') format('woff2');
-      font-weight: normal;
-      font-display: swap;
-    }
-
-    body {
-      background: #fdf0f5;
-      font-family: 'Mabiyet', sans-serif;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-    }
-
+    @font-face { font-family: 'Mabiyet'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2207-01@1.0/MabinogiClassicR.woff2') format('woff2'); }
+    :root { --pink: #ffafcc; --purple: #cdb4db; --bg: #fdf0f5; }
+    body { background: var(--bg); font-family: 'Mabiyet', sans-serif; color: #555; margin: 0; display: flex; justify-content: center; padding: 20px; }
     .container { width: 100%; max-width: 480px; }
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 25px;
-      box-shadow: 0 8px 15px rgba(0,0,0,0.05);
-      margin-bottom: 20px;
-    }
-    .btn {
-      padding: 12px;
-      border-radius: 15px;
-      border: none;
-      background: #ffafcc;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 10px;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ffc8dd;
-      border-radius: 12px;
-      box-sizing: border-box;
-      margin-bottom: 10px;
-    }
-    ul { padding-left: 18px; }
-    li { margin: 6px 0; }
-    .small { font-size: 12px; }
-    .row { display:flex; gap: 6px; margin-bottom: 15px; }
-    .linkbtn {
-      flex:1;
-      background:#cdb4db;
-      color:white;
-      padding:10px;
-      border-radius:10px;
-      text-decoration:none;
-      text-align:center;
-      display:block;
-    }
+    .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 8px 15px rgba(0,0,0,0.05); margin-bottom: 20px; border: 2px solid #fff; }
+    .btn { padding: 12px; border-radius: 15px; border: none; background: var(--pink); color: white; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; }
+    .purple-btn { background: var(--purple); }
+    input, textarea { width: 100%; padding: 12px; border: 1px solid #ffc8dd; border-radius: 12px; box-sizing: border-box; margin-bottom: 10px; font-family: 'Mabiyet'; }
+    .hidden { display: none !important; }
+    /* 투두 스타일 */
+    ul { list-style: none; padding: 0; }
+    li { display: flex; justify-content: space-between; align-items: center; background: #fff5f8; padding: 10px 15px; border-radius: 12px; margin-bottom: 8px; border: 1px solid #ffeef2; }
+    .done-text { text-decoration: line-through; color: #bbb; }
+    /* 캘린더 네비게이션 */
+    .date-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-weight: bold; color: var(--pink); }
+    .nav-arrow { cursor: pointer; font-size: 20px; padding: 0 10px; }
   </style>
 </head>
-
 <body>
+
   <div class="container">
-
-    <div class="card" style="text-align:center;">
-      <h1 style="color:#ff8fab;">🧋 bobalog 본부</h1>
-      <p id="status-text" class="small" style="color:red;">⚠️ 로그인 전 (로컬 모드)</p>
-      <p id="debug" class="small" style="color:#888; margin-top:6px;"></p>
-    </div>
-
-    <div class="card" id="auth-box">
+    <div id="auth-section" class="card">
+      <h1 style="text-align:center; color: var(--pink);">🧋 bobalog 인증</h1>
       <input type="email" id="u-email" value="abc.bobatea@gmail.com" />
       <input type="password" id="u-pw" value="rltgjqm" />
-      <button class="btn" id="loginBtn" type="button">인증하고 DB 연결하기 ✅</button>
+      <button class="btn" onclick="handleLogin()">대시보드 입장하기 ✅</button>
     </div>
 
-    <div class="card">
-      <div class="row">
-        <a class="linkbtn" href="https://gemini.google.com" target="_blank" rel="noopener noreferrer">Gemini</a>
-        <a class="linkbtn" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer">GPT</a>
+    <div id="main-dashboard" class="hidden">
+      <div class="card" style="text-align:center;">
+        <h2 id="clock" style="color: var(--pink); margin: 0;">00:00:00</h2>
+        <div style="display:flex; gap:6px; margin-top:10px;">
+          <a href="https://gemini.google.com" target="_blank" class="btn purple-btn" style="text-decoration:none;">Gemini</a>
+          <a href="https://chatgpt.com" target="_blank" class="btn purple-btn" style="text-decoration:none;">GPT</a>
+        </div>
       </div>
 
-      <input type="text" id="t-input" placeholder="할 일 입력..." />
-      <button class="btn" id="addBtn" type="button" style="background:#cdb4db;">할 일 추가</button>
-      <ul id="t-list"></ul>
-    </div>
+      <div class="card">
+        <div class="date-nav">
+          <span class="nav-arrow" onclick="moveDate(-1)">◀</span>
+          <span id="current-date">2025-12-21</span>
+          <span class="nav-arrow" onclick="moveDate(1)">▶</span>
+        </div>
+        <div style="display:flex; gap:5px;">
+          <input type="text" id="t-input" placeholder="오늘 뭐 할까?" style="margin:0;" />
+          <button class="btn purple-btn" onclick="addTodo()" style="width:80px; margin:0;">추가</button>
+        </div>
+        <ul id="t-list"></ul>
+      </div>
 
+      <div class="card">
+        <h2 style="color: var(--pink); margin-top:0;">📝 마음 일기</h2>
+        <textarea id="diary-input" rows="4" placeholder="오늘 마음은 어땠어?"></textarea>
+        <button class="btn" onclick="saveDiary()">오늘 기록 저장하기 🎀</button>
+      </div>
+
+      <button onclick="handleLogout()" style="background:none; border:none; color:#ccc; cursor:pointer; width:100%;">로그아웃</button>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <script>
-    const SUPABASE_URL = "https://hyydywzsvnfhdrexntnl.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5eWR5d3pzdm5maGRyZXhudG5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxMjE3MTAsImV4cCI6MjA4MTY5NzcxMH0.2vrbtBozzHeUle9a1foYmsz4o3jkPN5GtbBM0F-eK20";
+    const S_URL = "https://hyydywzsvnfhdrexntnl.supabase.co";
+    const S_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5eWR5d3pzdm5maGRyZXhudG5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxMjE3MTAsImV4cCI6MjA4MTY5NzcxMH0.2vrbtBozzHeUle9a1foYmsz4o3jkPN5GtbBM0F-eK20";
+    let sb, viewDate = new Date();
 
-    let sb = null;
+    window.onload = async () => {
+      sb = window.supabase.createClient(S_URL, S_KEY);
+      const { data: { session } } = await sb.auth.getSession();
+      if (session) showDashboard();
+      
+      setInterval(() => {
+        document.getElementById('clock').innerText = new Date().toLocaleTimeString('ko-KR');
+      }, 1000);
+    };
 
-    document.addEventListener("DOMContentLoaded", () => {
-      if (!window.supabase) {
-        setDebug("Supabase CDN 로드 실패 (네트워크 탭 확인)");
-        alert("Supabase 라이브러리 로드 실패!");
-        return;
-      }
-
-      sb = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY,
-        {
-          global: {
-            headers: {
-              "X-Client-Info": "bobalog-web" // ✅ ASCII만
-            }
-          }
-        }
-      );
-
-      setDebug("DOM 로드 OK / Supabase client 준비됨 ✅");
-
-      document.getElementById("loginBtn").addEventListener("click", emergencyLogin);
-      document.getElementById("addBtn").addEventListener("click", localAdd);
-    });
-
-    function setDebug(msg) {
-      const el = document.getElementById("debug");
-      if (el) el.textContent = msg;
-      console.log(msg);
+    // [인증 로직]
+    async function handleLogin() {
+      const email = document.getElementById('u-email').value.trim();
+      const password = document.getElementById('u-pw').value;
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) alert("로그인 실패: " + error.message);
+      else showDashboard();
     }
 
-    async function emergencyLogin() {
-      alert("버튼 클릭 ✅ 로그인 시도!");
-
-      const email = document.getElementById("u-email").value.trim();
-      const password = document.getElementById("u-pw").value;
-
-      if (!sb) {
-        alert("Supabase 초기화가 안 됐어!");
-        return;
-      }
-
-      try {
-        const { data, error } = await sb.auth.signInWithPassword({ email, password });
-
-        if (error) {
-          alert("로그인 실패: " + error.message);
-          setDebug("로그인 실패: " + error.message);
-          console.log(error);
-          return;
-        }
-
-        document.getElementById("status-text").innerText = "✅ DB 연결 완료";
-        document.getElementById("status-text").style.color = "green";
-        setDebug("로그인 성공 ✅");
-        alert("성공! 이제 DB 연결됨 🎉");
-
-        console.log("login data:", data);
-      } catch (e) {
-        alert("예외 발생: " + e.message);
-        setDebug("예외: " + e.message);
-        console.log(e);
-      }
+    function showDashboard() {
+      document.getElementById('auth-section').classList.add('hidden');
+      document.getElementById('main-dashboard').classList.remove('hidden');
+      updateUI();
     }
 
-    function localAdd() {
-      const val = document.getElementById("t-input").value.trim();
-      if (!val) return;
+    function handleLogout() { sb.auth.signOut(); location.reload(); }
 
-      const li = document.createElement("li");
-      li.textContent = val;
-      document.getElementById("t-list").appendChild(li);
+    // [날짜 및 데이터 로드]
+    function updateUI() {
+      const dateStr = viewDate.toISOString().split('T')[0];
+      document.getElementById('current-date').innerText = dateStr;
+      loadTodos(dateStr);
+      loadDiary(dateStr);
+    }
 
-      document.getElementById("t-input").value = "";
+    function moveDate(n) {
+      viewDate.setDate(viewDate.getDate() + n);
+      updateUI();
+    }
+
+    // [투두 기능]
+    async function loadTodos(date) {
+      const { data } = await sb.from('tasks').select('*').eq('due', date).order('created_at', { ascending: true });
+      const list = document.getElementById('t-list');
+      list.innerHTML = (data || []).map(t => `
+        <li>
+          <span class="${t.done ? 'done-text' : ''}">${t.text}</span>
+          <div>
+            <span style="cursor:pointer;" onclick="toggleTodo('${t.id}', ${t.done})">${t.done ? '✅' : '⬜'}</span>
+            <span style="cursor:pointer; margin-left:8px;" onclick="deleteTodo('${t.id}')">❌</span>
+          </div>
+        </li>
+      `).join('');
+    }
+
+    async function addTodo() {
+      const input = document.getElementById('t-input');
+      if (!input.value) return;
+      const { data: { user } } = await sb.auth.getUser();
+      const dateStr = viewDate.toISOString().split('T')[0];
+      await sb.from('tasks').insert([{ user_id: user.id, text: input.value, due: dateStr, done: false }]);
+      input.value = ''; updateUI();
+    }
+
+    async function toggleTodo(id, current) {
+      await sb.from('tasks').update({ done: !current }).eq('id', id);
+      updateUI();
+    }
+
+    async function deleteTodo(id) {
+      await sb.from('tasks').delete().eq('id', id);
+      updateUI();
+    }
+
+    // [일기 기능 - 편의상 localStorage 사용 (DB 저장 원하면 테이블 추가 필요!)]
+    function loadDiary(date) {
+      document.getElementById('diary-input').value = localStorage.getItem('diary_' + date) || '';
+    }
+
+    function saveDiary() {
+      const dateStr = viewDate.toISOString().split('T')[0];
+      const text = document.getElementById('diary-input').value;
+      localStorage.setItem('diary_' + dateStr, text);
+      alert("오늘의 마음 기록 완료! 🎀");
     }
   </script>
 </body>
